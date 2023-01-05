@@ -1,0 +1,54 @@
+.recipeCon {
+     width: 75%;
+     display: block;
+     background-color: #666;
+     margin: auto;
+     padding: 12px;
+}
+.recipeCon .title {
+     color: white;
+     font-size: 26px;
+     padding: 12px;
+     font-weight: bold;
+}
+.checked {
+     color: orange;
+}
+
+.recipe {
+     display: flex;
+     align-items: start;
+     margin-top: 16px;
+}
+.Recipe img {
+     width: 60%;
+     object-fit: cover;
+     margin-left: 6px;
+}
+.recipeRight {
+     display: flex;
+     flex-direction: column;
+     justify-content: start;
+     margin-left: 10px;
+     width: 100%;
+}
+.recipeRight .line {
+     display: flex;
+     width: 100%;
+     height: 100%;
+     background: white;
+}
+.line {
+     margin-top: 5px;
+}
+
+.line img {
+     width: 24px;
+     height: 24px;
+     margin-right: 6px;
+}
+
+.recipeCon .ingredients {
+     background: white;
+     padding: 16px;
+}

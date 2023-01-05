@@ -62,10 +62,7 @@ if ($uploadOk == 0) {
     $optionCat = $_POST['categorie'];  
     $writer = $_SESSION["username"]; 
     $videoPath = null;
-    echo  "choose   ". htmlspecialchars($option); 
-    echo  "   choose  2   ". htmlspecialchars( $_POST['steps']); 
-    
-    
+
     
     
     

@@ -237,12 +237,13 @@ class GlobaleView{
 
                               ?>
                               <div class="card-group">
-                              <div class="card" style="width: 18rem;">
+                              <a href="recipe.php?name=<?php echo $recipe['name'] ?>" >    <div class="card" style="width: 18rem;">
                                     <img src="../public/images/recipes/couscous.jpg" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h2><?php echo $recipe['name'] ?></h2>
+                                        <h2><?php echo $recipe['name'] ?></h2> 
                                         <p class="card-text"><?php echo $recipe['name'] ?></p>
                                     </div>
+                              </a>
                               </div>
 
                               <div class="card" style="width: 18rem;">
@@ -324,8 +325,8 @@ class GlobaleView{
             </div>
             
             <div class="navbar-links">
-                <a href="//github.io/jo_geek" target="_blank">News</a>
-                <a href="http://stackoverflow.com/users/4084003/" target="_blank">Recipe ideas</a>
+                <a href="/news" target="_blank">News</a>
+                <a href="./recipeIdea" target="_blank">Recipe ideas</a>
                 <a href="https://in.linkedin.com/in/jonesvinothjoseph" target="_blank">Season</a>
                 <a href="https://codepen.io/jo_Geek/" target="_blank">Healthy</a>
                 <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Ocassions</a>

@@ -23,6 +23,19 @@ class RecipeModel{
         return $recipies->fetchAll();
     }
 
+    public function getRecipeByname($name){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        if (isset($name)) {
+            $sql= "SELECT recipe.id,imgPath,serves,cookingTime,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.name=? ;";
+            $args=[$name];
+        }
+        $recipies = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return $recipies->fetchAll();
+    }
 
     public function getCategories(){
         $dbConn = new Dbconnection();
@@ -36,6 +49,21 @@ class RecipeModel{
         $dbConn ->deconnexion($conn);
 
         return $categories->fetchAll();
+    }
+
+
+    public function getIngredientList($id){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        
+            $sql= "SELECT * FROM `makein` INNER JOIN `ingredient` ON makein.idingred = ingredient.id  WHERE idRecipe=?;";
+            $args=[$id];
+      
+        $list = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return $list->fetchAll();
     }
 
     public function getMesures(){
@@ -119,16 +147,21 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         $sql= " SELECT AVG(note)
-        FROM note
+        FROM noter
         WHERE idRecipe=?";
             $args=[$idRecipe];
        
             
         
-        $user = $dbConn->request($conn,$sql,$args);
+        $note = $dbConn->request($conn,$sql,$args);
+        $sql= " SELECT *
+        FROM noter
+        WHERE idRecipe=?";
+        $args=[$idRecipe];
+        $number = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
 
-        return 1;
+        return  [intVal($note->fetchAll()[0][0]) , count($number->fetchAll())] ;
 
 
     }
@@ -206,17 +239,17 @@ class RecipeModel{
         $args=[$name ];
         $idR  = $dbConn->request($conn,$sql,$args)->fetchAll()[0][0];
         
-        $sql= "INSERT INTO `makein` (`idingred`, `idRecipe`, `quentity`, `mesure`)  VALUES (?, ?, ?,?);";
+        $sqlG= "INSERT INTO `makein` (`idingred`, `idRecipe`, `quentity`, `mesure`)  VALUES (?, ?, ?,?);";
       
          
-        foreach ($ingreds as  $ingred) {
+        foreach ($Ingreds as  $ingred) {
 
             $sql= " SELECT id FROM `ingredient`  WHERE `name` = ? ";
             $args=[$ingred[0]];
             $idI  = $dbConn->request($conn,$sql,$args)->fetchAll()[0][0];
     
             $args=[$idI,$idR , $ingred[2] , $ingred[1]];
-            $dbConn->request($conn,$sql,$args);
+            $dbConn->request($conn,$sqlG,$args);
                 
             }
         

@@ -1,7 +1,7 @@
 <?php 
 require_once "../views/globaleView.php";
 require_once "../views/recipeFormView.php";
-require_once "../views/recipeIdeaView.php";
+require_once "../views/recipeView.php";
 
 require_once "../models/userModel.php" ;
 require_once "../models/recipeModel.php" ;
@@ -54,7 +54,7 @@ public function recipeIdea() {
     return  $model->getParty();
 
   }
-  public function getRecipes($id) {
+  public function getRecipes($id=null) {
     $model = new RecipeModel();
     return  $model->getRecipes($id);
 
@@ -66,9 +66,33 @@ public function recipeIdea() {
     $model = new RecipeModel();
     return  $model->getMesures();
 
+
   }
 
+  public function getNote($id) {
+    $model = new RecipeModel();
+    return  $model->getNote($id);
 
+  }
+  public function  getIngredientList($id) {
+    $model = new RecipeModel();
+    return  $model-> getIngredientList($id);
+
+  }
+ 
+
+  public function recipe($name){
+    $view = new RecipeView();
+    $viewGlob = new GlobaleView();
+    $model = new RecipeModel();
+    $recipe = $model ->getRecipeByname($name); 
+    $view->head();
+    $viewGlob->header();
+    $view->index($recipe);
+    $viewGlob->footer();
+  
+  
+  }
 
 
 
