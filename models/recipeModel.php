@@ -10,7 +10,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($id)) {
-            $sql= "SELECT * FROM recipe where id=?;";
+            $sql= "SELECT recipe.id,imgPath,cookingTime,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.id=? ;";
             $args=[$id];
         }
         else {
@@ -37,6 +37,21 @@ class RecipeModel{
 
         return $categories->fetchAll();
     }
+
+    public function getMesures(){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        
+            $sql= "SELECT * FROM `mesure` ";
+            $args=[];
+      
+        $mesures = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return $mesures->fetchAll();
+    }
+
 
     public function getParty(){
         $dbConn = new Dbconnection();
@@ -175,6 +190,48 @@ class RecipeModel{
 
     }
 
+
+
+    public function addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingreds,$steps ,$imagePath,$videoPath, $writer){
+
+
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+        $sql = "INSERT INTO `recipe` (`id`, `name`, `description`, `serves`, `preparationTime`, `restTime`, `categorie`, `cookingTime`, `imgPath`, `videoPath`, `party`, `writer`) VALUES (NULL, ?, ?,?,?, ?,?,? ,?,?,?,?);";
+        $args=[$name,$description,$serves,$PrepTime,$RestTime,$optionCat,$CookTime,$imagePath,$videoPath, $optionParty , $writer];
+        $dbConn->request($conn,$sql,$args);
+        
+        
+        $sql= " SELECT id FROM `recipe`  WHERE `name` = ? ";
+        $args=[$name ];
+        $idR  = $dbConn->request($conn,$sql,$args)->fetchAll()[0][0];
+        
+        $sql= "INSERT INTO `makein` (`idingred`, `idRecipe`, `quentity`, `mesure`)  VALUES (?, ?, ?,?);";
+      
+         
+        foreach ($ingreds as  $ingred) {
+
+            $sql= " SELECT id FROM `ingredient`  WHERE `name` = ? ";
+            $args=[$ingred[0]];
+            $idI  = $dbConn->request($conn,$sql,$args)->fetchAll()[0][0];
+    
+            $args=[$idI,$idR , $ingred[2] , $ingred[1]];
+            $dbConn->request($conn,$sql,$args);
+                
+            }
+        
+
+        $sql ="INSERT INTO `step` (`id`, `idRecipe`, `order`, `description`) VALUES (NULL, ?,?,?);";
+        foreach ($steps as  $step) {
+
+            $args=[$idR , $step[1] , $step[0]];
+            $dbConn->request($conn,$sql,$args);
+                
+            }
+        
+        $dbConn ->deconnexion($conn);
+
+    }
 
 
 

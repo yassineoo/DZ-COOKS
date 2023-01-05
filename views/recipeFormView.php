@@ -1,31 +1,45 @@
 <?php
 
+require_once "../views/globaleView.php";
+require_once "../controllers/nutrationController.php";
+
+
 
 
 class recipeFormView{
 
 
 
+   
     public function head () {
             ?>
                     <head>
                     <link href="../public/css/bootstrap.min.css" rel="stylesheet">
                     <link rel="stylesheet" type="text/css" href="../public/css/home.css">
-                    <script src="bootstrap-autocomplete.min.js"></script>
+                    <script src="../public/js/bootstrap.bundle.min.js"></script>
+                    <script src="../public/js/autocompleteRecipe.js"></script>
                     <title>DZ cooks</title>
                     </head>
             <?php
     }
+
+    public function AddPage(){
+        $view = new GlobaleView();
+        $this->head();
+        $view->header();
+        $this->form(); 
+    }
+
 
     public function form () {
 
 
         ?>
    
-        <body>
+    
 
         <div id="recipesFormRoot">
-             <form class="recipes-form">
+             <form class="recipes-form addform" enctype="multipart/form-data" method="POST" action="./addRecipe.php" >
                  <div class="recipes-form__heading">  
                     <h2>Add a New Recipe</h2></div>
                  <div class="recipes-form__section">
@@ -33,7 +47,7 @@ class recipeFormView{
                         <label for='title'>
                             <span  >Recipe Title *</span>
                         </label>
-                        <input id="RecipeTitle" class="form-control" placeholder=" " name="title" type="text" class="css-c8bif2" value=""/>
+                        <input id="RecipeTitle" class="form-control" placeholder="titre" name="title" type="text" class="css-c8bif2" value=""/>
                     </div>
                         <!--
                     <div class="recipes-form__tooltip-icon" aria-label="Title info">
@@ -47,7 +61,7 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >Recipe Description</span>
                         </label>
-                        <textarea  class="form-control" name="description" rows="5" >
+                        <textarea  class="form-control" name="description" rows="5" placeholder="Description" >
                         </textarea>
 
                     </div>
@@ -55,7 +69,7 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >the Recipe serves </span>
                         </label>
-                        <input  type="number" class="form-control" name="description" placeholder="1"  />
+                        <input  type="number" class="form-control" name="serves" placeholder="1"  />
                         <span > persons</span>                       
 
                     </div>
@@ -63,8 +77,8 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >Prep Time *</span>
                         </label>
-                        <input  type="number" class="form-control" name="description" placeholder="H"  />
-                        <input  type="number" class="form-control" name="description" placeholder="Min"  />
+                        <input  type="number" class="form-control" name="PrepTimeH" placeholder="H"  />
+                        <input  type="number" class="form-control" name="PrepTimeM" placeholder="Min"  />
                         
 
                     </div>
@@ -72,8 +86,8 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >Cook Time *</span>
                         </label>
-                        <input  type="number" class="form-control" name="description" placeholder="H" />
-                        <input  type="number" class="form-control" name="description" placeholder="Min" />
+                        <input  type="number" class="form-control" name="CookTimeH" placeholder="H" />
+                        <input  type="number" class="form-control" name="CookTimeM" placeholder="Min" />
                       
 
                     </div>
@@ -81,50 +95,53 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >Rest Time</span>
                         </label>
-                        <input  type="number" class="form-control" name="description" placeholder=" H"  />
+                        <input  type="number" class="form-control" name="RestTimeH" placeholder=" H"  />
 
-                        <input  type="number" class="form-control" name="description" placeholder="Min"  />
+                        <input  type="number" class="form-control" name="RestTimeM" placeholder="Min"  />
                       
 
                     </div>
-
+                   <?php  $this->line(); ?>
+                   <h3> Add your Ingredients one at a time </h3>
+                     <div class='ingredCon'>
                     <?php
-                    $this->line();
-                    $this->ingredient();
-                    $this->ingredient();
-                    $this->ingredient();
-                    
-
+                   
+              
                     ?>
-                    <button type="" class="addIngredient">+ Add Another Ingredient</button>
+                        
+                    </div>
+                  
+                    <button  class="addIngredient" id="addIngred" >+ Add Another Ingredient</button>
                     
                    <?php  $this->line();?>
                    <h3> Add your instructions one at a time </h3>
-                   <?php 
-                   $this->step(1);
-                   $this->step(2);
-                   $this->step(3);
-                   ?>
-                   <button type="" class="addIngredient">+ Add Another Step</button>
+                   <div class='stepsCon'>
+
+                        <?php 
+                         
+                        ?>
+                   </div>
+                   <button  class="addIngredient" id="addaStep" >+ Add Another Step</button>
                    <?php  $this->line();?>
                    <h3> Tag your Recipe</h3>
                    
                             
-                           <select class="form-select form-select-sm">
-                            <?php
+                           <select class="form-select form-select-sm" name="categorie">
+                           <?php
                             $cntrl  = new HomeController(); 
-                            $categories = $cntrl->getCategories();
+                            $party = $cntrl->getCategories();
 
-                            foreach($categories as $cat)
+                            foreach($party as $part)
                             {
 
                               ?>
-                                <option><?php echo $cat['name'] ?></option>
+                                <option><?php echo $part['name'] ?></option>
                                 
                                 <?php  } ?>
+
                             </select >
 
-                            <select class="form-select form-select-sm">
+                            <select class="form-select form-select-sm" name="party">
                             <?php
                             $cntrl  = new HomeController(); 
                             $party = $cntrl->getParty();
@@ -138,9 +155,9 @@ class recipeFormView{
                                 <?php  } ?>
                             </select>
                   <h3> Add an Image</h3>
-                  <input type="file" name="img" value="">
+                  <input type="file" name="ImageUpload" value="">
                   <h3> Add a video</h3>
-                  <input type="file" name="video" value="">
+                  <input type="file" name="VIdeoUpload" value="">
 
              <!--
                     <div class="recipes-form__tooltip">This will be your recipe's introduction! We love a good story behind a dish, along with helpful tips and variations.
@@ -148,11 +165,23 @@ class recipeFormView{
                     <br>If you've adapted from someone else's recipe, this is where you should give credit and tell us how you've made it your own. Not sure if your recipe is adapted enough?
                     </div>
              -->
-                <button type="submit"> Submit </button>
+
+             <input type="hidden" name="INumber" id="INumber"   value="3"  />
+            <input type="hidden" name="SNumber" id="SNumber"   value="3"  />
+        
+                <button type="submit" name="submit"> Submit </button>
                 </form>
             </div>
         </div>
-     </body>
+  
+
+        <script src='../public/js/jQuery.js'></script>
+      <?php $this->addIngredeient(); ?> 
+      <?php $this->addStep(); ?> 
+
+
+    
+
 
      <?php
 
@@ -164,7 +193,7 @@ class recipeFormView{
                         <label for="RecipeDescription" >
                            <span >Ingredient</span>
                         </label>
-                        <input  type="name" class="form-control" name="IngredientName"  placeholder="Name"  />
+                        <input  type="name" class="form-control form-control-lg" name="IngredientName"  placeholder="Name"  />
                          <label for="measurement00" class="css-1dn068x">
                         <span class="css-1j7byy8">Measurement
                         </span>
@@ -222,14 +251,11 @@ class recipeFormView{
                     
                        
                       
-                        <input  type="number" class="form-control" name="qte" placeholder="Qeuntity" />
+                        <input  type="number" class="form-control" name="qte"  placeholder="Qeuntity" />
    
                     </div>
 
-                    <script>
-
-            
-                   </script>
+             
         <?php
 
         
@@ -239,7 +265,7 @@ class recipeFormView{
         ?>
                     <div class="form-group Ingredient">
                    
-                        <textarea  class="form-control" value="djd" name="steps" rows="2"  >
+                        <textarea  class="form-control"  name=<?php "step".$number ?>  placeholder="kook" rows="2"  >
                         </textarea>
                     </div>
         <?php
@@ -253,6 +279,145 @@ class recipeFormView{
         <span class="sperator">
         </span>
     <?php
+    }
+
+    public function addIngredeient(){
+        ?> 
+    
+        <script>
+
+            
+console.log("hh");
+
+
+
+        
+         $(document).ready(function(){
+
+            var Ingredient = 1;
+         addingre = () => {
+                console.log(` <p>kokoko</p> `);
+              $(".ingredCon").append( `  <div class="form-group Ingredient">
+                        <label for="RecipeDescription" >
+                           <span >Ingredient</span>
+                        </label>
+                        <input  type="name" class="form-control IngredientName" name="IngredientName${Ingredient}"  placeholder="Name" id="IngredientName${Ingredient}"  />
+                         <label for="measurement00" class="css-1dn068x">
+                        <span class="css-1j7byy8">Measurement
+                        </span>
+                        </label>
+                        <select  id="measurement00" name="measurement${Ingredient}" class="form-select form-select-sm">
+                        <?php
+                            $cntrl  = new HomeController(); 
+                            $categories = $cntrl->getMesures();
+
+                            foreach($categories as $cat)
+                            {
+
+                              ?>
+                                <option><?php echo $cat['name'] ?></option>
+                                
+                                <?php  } ?>
+                         </select>
+                    
+                       
+                      
+                        <input  step="0.01" type="number" class="form-control" name="qte${Ingredient}" placeholder="Qeuntity" />
+   
+                    </div>
+                    ` );
+
+            var auto_complete = new Autocomplete(document.getElementById(`IngredientName${Ingredient}`), 
+            {
+                data:<?php 
+                
+                $cntrl  = new NutrationController(); 
+                $data = $cntrl->getIngredient();    
+                    
+                    echo json_encode($data); ?>,
+                maximumItems:10,
+                highlightTyped:true,
+                highlightClass : 'fw-bold text-primary'
+            }); 
+  
+            Ingredient+=1;              
+            }
+
+      
+            addingre();
+            addingre();
+            addingre();
+
+
+            $("#addIngred").click((event
+            ) => { 
+                event.preventDefault();
+                addingre();
+                $("#INumber").val(Ingredient-1);
+            
+            });
+               
+           
+           
+           
+            });  
+            
+       
+         
+            
+  
+        </script>
+        <?php
+
+
+    }
+
+
+
+    public function addStep(){
+        ?> 
+  
+        <script>
+      
+        
+         $(document).ready(function(){
+
+
+
+            var steps = 1;
+         addStepJs = (event) => {
+                console.log(` <p>kokoko</p> `);
+              $(".stepsCon").append( `     <div class="form-group Ingredient">
+                   
+                   <textarea  class="form-control "  name="step${steps}"  value="step${steps}" placeholder="step${steps}" rows="2"   >
+                   </textarea>
+               </div>` );
+               steps+=1;     
+           
+            }
+                     
+            addStepJs();
+            addStepJs();
+            addStepJs();
+
+            $("#addaStep").click((event
+
+            ) => { 
+                event.preventDefault();
+                addStepJs(); 
+                $("#SNumber").val(steps-1);
+                console.log("clicked");
+            
+            });
+             
+
+            });  
+   
+         
+        </script>
+        <?php
+
+
     }
     
 }

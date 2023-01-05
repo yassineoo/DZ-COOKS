@@ -196,48 +196,17 @@ class GlobaleView{
 
         ?>
         <head>
+              <link rel="stylesheet" href="../public/css/style.css">
+              <link rel="stylesheet" href="../public/css/ionicons.min.css">
             <link rel="stylesheet" type="text/css" href="../public/css/home.css">
             <link href="../public/css/bootstrap.min.css" rel="stylesheet">
             <title>DZ cooks</title>
         </head>
         <body>
-            <header>
-                <img class='logo' src='../public/images/logo.png'>
-                <div class='Right-nav'>
-                    <span>Follow Us</span>
-                    <img class='icon' src="../public/images/icons/fb.png"/>
-                    <img class='icon' src="../public/images/icons/twtr.png"/>
-                    <img class='icon' src="../public/images/icons/insta.png"/>
-
-                </div>
-                
-     
-
-            </header>
-
-            <nav>
-                    <ul>
-                        <li><a href='#'> Home </a></li> 
-                        <li><a href='#'> News </a></li>
-                        <li><a href='#'> Recipe ideas</a></li>
-                       
-
-                        <li><a href='#'> More </a>
-                            <ul>
-                                <li class="type_argculture"> <a href="https://pixabay.com/" target="_blank" class="lien">  Season </a> </li>
-                                <li class="type_argculture"> <a href="https://pixabay.com/" target="_blank" class="lien">  Healthy </a> </li>
-                                <li class="type_argculture"> <a href="https://pixabay.com/" target="_blank" class="lien">  party</a> </li>
-                                <li class="type_argculture"> <a href="https://pixabay.com/" target="_blank" class="lien">  Nutration </a> </li>
-                                <li class="type_argculture"> <a href="https://pixabay.com/" target="_blank" class="lien">  Contact </a> </li>
-                            
-                            </ul> 
-                        </li>
-                        <li><a href='#'> Profile</a></li>
-                    </ul>
-                </nav>
-
-
-        </body>
+            
+        <?php
+        $this->header();  
+        ?>
 
         <div class="parent">
             <div class ='diaporama'>
@@ -249,9 +218,10 @@ class GlobaleView{
         </div>
 
         
-        
+    </body>  
         <?php
         $this->contune();
+        $this->footer();
     }
      public function contune() {
         ?>
@@ -304,7 +274,203 @@ class GlobaleView{
         </main>
 
         <?php
+     
+           
+     }
 
+     public function header(){
+        ?>
+
+<header>
+                <img class='logo' src='../public/images/logo.png'>
+                <div class='Right-nav'>
+                    <span>Follow Us</span>
+                    <img class='icon' src="../public/images/icons/fb.png"/>
+                    <img class='icon' src="../public/images/icons/twtr.png"/>
+                    <img class='icon' src="../public/images/icons/insta.png"/>
+
+                </div>
+                
+     
+
+            </header>
+
+            <?php $this->navbar(); ?>
+
+          
+
+       
+
+
+    <?php
+     }
+
+     public function navbar() {
+        ?>
+
+                    <div class="navbar">
+            <input type="checkbox" id="navbar-check">
+            <div class="navbar-header">
+                <div class="navbar-title">
+                Home
+                </div>
+            </div>
+            <div class="navbar-btn">
+                <label for="navbar-check">
+                <span></span>
+                <span></span>
+                <span></span>
+                </label>
+            </div>
+            
+            <div class="navbar-links">
+                <a href="//github.io/jo_geek" target="_blank">News</a>
+                <a href="http://stackoverflow.com/users/4084003/" target="_blank">Recipe ideas</a>
+                <a href="https://in.linkedin.com/in/jonesvinothjoseph" target="_blank">Season</a>
+                <a href="https://codepen.io/jo_Geek/" target="_blank">Healthy</a>
+                <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Ocassions</a>
+                <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Nutration</a>
+
+            </div>
+            </div>
+
+      
+        <?php
+     }
+
+
+     public function footer(){
+        ?>
+
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted">
+  <!-- Section: Social media -->
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <!-- Left -->
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <!-- Left -->
+
+    <!-- Right -->
+    <div>
+      <a href="" class="me-4 text-reset">
+      <img class='icon' src="../public/images/icons/fb.png"/>
+       
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-twitter"></i>
+        <img class='icon' src="../public/images/icons/twtr.png"/>
+
+      </a>
+      <a href="" class="me-4 text-reset">
+      <img class='icon' src="../public/images/icons/insta.png"/>
+
+      <i class="fab fa-google"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="" class="me-4 text-reset">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem me-3"></i>DZ-Cooks
+          </h6>
+          <p>
+            DZ-cooks is website for your kitchen 
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+           Les Sections
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Recettes</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">idee de recette</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Healthy</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">seasons</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Useful links
+          </h6>
+          <p>
+            <a href="#!" class="text-reset">Nutration</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Settings</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">fete</a>
+          </p>
+          <p>
+            <a href="#!" class="text-reset">Help</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p><i class="fas fa-home me-3"></i> Algeria,Algeries ,ESI</p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            info@DZ-cooks.com
+          </p>
+          <p><i class="fas fa-phone me-3"></i> + 213 234 567 88</p>
+          <p><i class="fas fa-print me-3"></i> + 213 752 516 41</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2021 Copyright:
+    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">YassineDev.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+        <?php
      }
     
 

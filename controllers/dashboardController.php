@@ -12,11 +12,19 @@ class DashboardController {
         $view = new adminView();
         $view->head();
         $view->navbar();
-        $view->main();
-      
-
+        $view->main(1);
+    
         
   }
+
+  public function users($error=null) {
+    $view = new adminView();
+    $view->head();
+    $view->navbar();
+    $view->main(3);
+
+    
+}
 
   public function getUsers($id=null) {
     $model = new userModel();

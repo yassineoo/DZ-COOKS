@@ -1,0 +1,135 @@
+.ideaCon {
+     width: 75%;
+     display: block;
+     background-color: #666;
+     margin: auto;
+     padding: 12px;
+}
+.ideaCon .title {
+     color: white;
+     font-size: 26px;
+     padding: 12px;
+     font-weight: bold;
+}
+
+.idea {
+     display: flex;
+     flex-direction: row !important;
+}
+.leftIdea {
+     flex: 0.7;
+     background: white;
+     padding: 15px;
+}
+.leftIdea h3 {
+     color: #f3783d;
+     font-size: 16px;
+     font-weight: bold;
+     margin-top: 4px;
+}
+.leftIdea h4 {
+     color: #f3783d;
+     font-size: 14px;
+     font-weight: bold;
+     margin-top: 8px;
+}
+.leftIdea h1 {
+     color: #f3783d;
+     font-size: 18px;
+     font-weight: bold;
+     margin-top: 8px;
+}
+.poularIngredients {
+     display: flex;
+     flex-wrap: wrap;
+}
+.poularIngredients .Ingredient {
+     margin-right: 4px;
+     //  margin-left: 4px;
+}
+
+.rightidea {
+     margin-left: 10px;
+     flex: 0.3;
+     background: white;
+}
+.rightidea h3 {
+     color: #f3783d;
+     font-size: 16px;
+     font-weight: bold;
+     margin-top: 8px;
+}
+.resCon {
+     background: white;
+     padding: 15px;
+     margin-top: 12px;
+}
+
+.res {
+}
+.res h3 {
+     font-size: 14px;
+     font-weight: bold;
+}
+.ideaCard {
+     display: flex;
+}
+.ideaCard h3 {
+     font-size: 18px;
+     margin-top: 6px;
+     font-weight: bold;
+}
+.ideacard img {
+     flex: 0.3;
+     width: 40%;
+     margin: 6px;
+}
+.rightRecipe h4 {
+     font-size: 18px;
+     margin-top: 6px;
+     font-weight: bold;
+}
+.ideaCard {
+     position: relative;
+}
+.sperator {
+     width: 90%;
+     margin: auto;
+     height: 1.5px;
+     background-color: #ddd;
+}
+
+.icon {
+     width: 24px !important;
+     height: 24px !important;
+     object-fit: cover !important;
+}
+
+.ingredSearch {
+     position: relative;
+}
+.ingredSearch .icon {
+     position: absolute;
+     right: 0;
+}
+
+.partHor {
+     display: flex;
+     flex-direction: row-reverse;
+     justify-content: start;
+     align-items: center;
+}
+.timeRecipeCon {
+     bottom: 12px;
+     right: 8px;
+     position: absolute;
+     display: flex;
+}
+.rightRecipe .icon {
+     width: 24px;
+}
+.pobularIngredient {
+     background-color: #f3783d;
+     padding: 4px;
+     border-radius: 16px;
+}

@@ -3,12 +3,15 @@
      margin: 0;
 }
 header {
-     height: 56px;
+     height: 54px;
      width: 100vw;
      background-color: #d9d9d9;
-     display: flex;
+     display: flex !important;
      justify-content: space-between;
      align-items: center;
+     position: sticky;
+     top: 0;
+     z-index: 50;
 }
 .logo {
      width: 110px;
@@ -16,7 +19,8 @@ header {
      margin-left: 10px;
 }
 .Right-nav {
-     display: flex;
+     display: flex !important;
+     flex-direction: row !important;
      align-items: center;
 
      justify-content: center;
@@ -79,9 +83,43 @@ header {
      flex: 1;
      margin: 12px;
 }
+
 .aside {
-     height: 100vh;
+     //height: 100vh;
 }
 .aside .menu {
      height: calc(100vh - 56px);
+     //   background: Red;
+     //    border-radius: 80px;
+
+     position: sticky;
+
+     top: 56;
+}
+
+* {
+     padding: 0;
+     margin: 0;
+}
+
+.content-section {
+     min-height: 2000px;
+}
+.sidebar-section {
+     position: absolute;
+     height: 100%;
+     width: 100%;
+}
+
+.sidebar-item {
+     position: absolute;
+     top: 0;
+     right: 0;
+     width: 100%;
+     height: 100%;
+
+     /* Position the items */
+     // &:nth-child(2) { top: 25%; }
+     // &:nth-child(3) { top: 50%; }
+     // &:nth-child(4) { top: 75%; }
 }

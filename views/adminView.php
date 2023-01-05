@@ -7,12 +7,14 @@ class AdminView {
                     
         <head>
         <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="../public/css/bootstrap.min.css" rel="stylesheet">
 
             <title>LOGIN</title>
 
             <link rel="stylesheet" type="text/css" href= "../public/css/admin.css">
+            <link rel="stylesheet" type="text/css" href= "../public/css/home.css">
 
         </head>
      <?php  
@@ -28,20 +30,19 @@ class AdminView {
                     <img class='icon searchIcon' src="../public/images/icons/search.png"/>
                     <input type = 'text' class='search-input' />
                 </div>
-                <div class='Right-nav'>
+                <div class='Right-navbar'>
                     <img class='icon' src="../public/images/icons/settings.png"/>
                     <img class='icon' src="../public/images/icons/notif.png"/>
                     <img class='icon' src="../public/images/icons/admin.png"/>
 
-
-                </div>
+               </div>
                 
      
 
             </header>
         <?php
     }
-        public function table(){
+    public function table(){
 
             ?>
 
@@ -52,7 +53,40 @@ class AdminView {
                                 data-show-export="true"
                                 data-click-to-select="true"
                                 data-toolbar="#toolbar">
+
                                 <h1> Users </h1>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                         
+                                            <th scope="col" class='th-sm' data-field="state" data-checkbox="true">Name</th>
+                                            <th scope="col" class='th-sm'>Email</th>
+                                            <th scope="col" class='th-sm'>sex</th>
+                                            <th scope="col" class='th-sm'>confirmed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $cntrl  = new dashboardController(); 
+                                        	$users = $cntrl->getUsers();
+                                            foreach($users as $user)
+                                            {
+                                        ?>
+                                        
+                                        <tr>
+                                            <td><?php echo $user['FirstName'].' '.$user['lastName']?></td>
+                                            <td><?php echo $user['email']?></td>
+                                            <td><?php echo $user['sex']?></td>
+
+                                            <td><form action='operations.php' method="POST" > 
+                                                <input hidden value =<?php echo $user['id']?> name='id'/>
+                                                <button type="submit" name='confirme' class="btn btn-primary" <?php echo $user['confirmed']?'disabled':'' ?> >confirme</button></form></td>
+                                        </tr>
+                                      
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -90,9 +124,11 @@ class AdminView {
             <?php
         }
 
-        public function sideBar() {
+
+        public function sideBar($num) {
             ?>
-          <aside class='aside'>
+
+          <aside class='aside asidebar'>
             
           
             <div class="menu d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
@@ -103,31 +139,31 @@ class AdminView {
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="./" class= <?php if($num==1) { echo "nav-link active text-white" ; } else {echo  "nav-link text-white"; }?>    aria-current="page">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
                     Home
                 </a>
                 </li>
                 <li>
-                <a href="#" class="nav-link text-white">
+                <a href="./resipes" class="nav-link text-white <?php if($num==2) { echo " active" ; } ?> ">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     Recipes
                 </a>
                 </li>
                 <li>
-                <a href="#" class="nav-link text-white">
+                <a href="./users" class="nav-link text-white <?php if($num==3) { echo " active" ; }?>">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
                     Users
                 </a>
                 </li>
                 <li>
-                <a href="#" class="nav-link text-white">
+                <a href="./nutrationPage" class="nav-link text-white <?php if($num==4) { echo " active" ; }?>">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
                     Nutration
                 </a>
                 </li>
                 <li>
-                <a href="#" class="nav-link text-white">
+                <a href="./theme" class="nav-link text-white  <?php if($num==5) { echo " active" ; }?> ">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
                     Theme
                 </a>
@@ -152,12 +188,12 @@ class AdminView {
 
             <?php
         }
-        public function main(){
+        public function main($num){
             ?>
             <main class='main'>
             
                 <?php
-             $this->sidebar();
+             $this->sidebar($num);
             $this->table() ;
             ?> 
             </main>
