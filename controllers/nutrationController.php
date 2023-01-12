@@ -20,6 +20,18 @@ class NutrationController {
         $view->main();
 
     }
+
+    public function IngredientList(){
+
+      $view = new NutrationView();
+      $viewGlob = new GlobaleView();
+      //$viewGlob-> head();
+      $viewGlob-> header();
+
+      $view->head();
+      $view->IngredientsList();
+
+  }
     public function getCategories() {
         $model = new NutrationModel();
         return  $model->getCategories();
@@ -56,6 +68,12 @@ class NutrationController {
         return  $model->getIngredient();
     
       }
+
+      public function GetIngredientList() {
+        $model = new NutrationModel();
+        return  $model->IngredientList();
+    
+      }
       public function addIngredeient($name ,$calories ,$season ,$categorie , $vitamines,$mineraux,$information) {
 
         $model = new NutrationModel();
@@ -72,6 +90,12 @@ class NutrationController {
         return $model->ideaGenerator($ingredList);
         
       }
+     public function getAllInfo($id )
+      {
+        $model = new NutrationModel();       
+        return $model->getAllInfo($id);
+      }
+   
 
 }
 

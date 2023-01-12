@@ -15,7 +15,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 if(isset($_POST["submit"])) {
   $check = getimagesize($_FILES["ImageUpload"]["tmp_name"]);
   if($check !== false) {
-    echo "File is an image - " . $check["mime"] . ".";
+  //  echo "File is an image - " . $check["mime"] . ".";
     $uploadOk = 1;
   } else {
     echo "File is not an image.";
@@ -44,11 +44,10 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-  echo "Sorry, your file was not uploaded.";
+  //echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
   if (move_uploaded_file($_FILES["ImageUpload"]["tmp_name"], $target_file)) {
-    echo "The file ". htmlspecialchars( basename( $_FILES["ImageUpload"]["name"])). " has been uploaded.";
     
     $imagePath = basename( $_FILES["ImageUpload"]["name"]);
     $name = $_POST["title"];
@@ -86,7 +85,9 @@ if ($uploadOk == 0) {
     $homeController = new HomeController();
     
     $homeController->addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer);
-
+  
+    header("./".$name) ;
+    exit();
     
   } else {
     echo "Sorry, there was an error uploading your file.";

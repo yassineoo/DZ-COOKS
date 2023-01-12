@@ -196,8 +196,9 @@ class GlobaleView{
 
         ?>
         <head>
-              <link rel="stylesheet" href="../public/css/style.css">
-              <link rel="stylesheet" href="../public/css/ionicons.min.css">
+
+        <script src="../public/js/bootstrap.bundle.min.js"></script>
+
             <link rel="stylesheet" type="text/css" href="../public/css/home.css">
             <link href="../public/css/bootstrap.min.css" rel="stylesheet">
             <title>DZ cooks</title>
@@ -206,84 +207,163 @@ class GlobaleView{
             
         <?php
         $this->header();  
+        $this->diaporama();
+        $this->contune();
+        $this->footer();
         ?>
-
-        <div class="parent">
-            <div class ='diaporama'>
-                <img src='../public/images/diapo/diapo1.png' alt='background'  />
-                <img src='../public/images/diapo/diapo2.jpg' alt='background'  />
-                <img src='../public/images/diapo/diapo3.jpg' alt='background'  />
-                <img src='../public/images/diapo/diapo4.jpg' alt='background'  />
-            </div>
-        </div>
 
         
     </body>  
         <?php
-        $this->contune();
-        $this->footer();
+ 
     }
-     public function contune() {
-        ?>
-        <main>
-            <h2>plats</h2>
-        
+
+
+    public function diaporama(){
+      ?>
+
+<div id="carouselExampleControls" class="carousel slide diapo" data-bs-ride="carousel">
+  <div class="carousel-inner">
+  <?php 
+            $cntrl =new HomeController();
+            $diapos = $cntrl->getDiapos();
+            $tr = 0;
+            foreach ($diapos as  $diapo) {
+            
+              ?>
+                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="10000">
+                    <a href="<?php echo $diapo['path']?>"><img src="../public/images/diapo/<?php echo $diapo['imageName']?> "  class="d-block w-100 h-20" alt="...">
+                      <div class="carousel-caption d-none d-md-block ">
+                        <h5><?php echo $diapo['title']?> </h5>
+                      </div>
+                    </a>
+                </div>
+    <?php 
+    $tr++;
+            } 
+            ?>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+                <?php
+              }
+
+
+
+    public function card($recipe){
+      ?>
+        <div class="col-md-3 cardCon">          
+                           <div class="card">
+                                <img src="../public/images/recipes/<?php echo $recipe["imgPath"] ?>" class="d-block w-100" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo mb_substr($recipe["name"],0,19) ; ?></h5>
+                                    <p class="card-text"> <?php echo mb_substr( $recipe["description"],0,45)."..."; ?> </p>
+                                    <a href="./recipe?name=<?php echo $recipe["name"] ?>" class="btn btn-primary">voire la suite</a>
+                                </div>
+                            </div>
+
+         </div>
+      <?php
+    }
+   
+    public function contune() {
+      ?>
+      <main>
+         <div class="categorieHead">
+           <h2 class="categorieTitle">plats</h2>
+           <a href="./categories?categorie=plats" class="btn btn-secondary"> voir tous</a>
+        </div>
+   
+
+          <div class="container text-center my-3">
+          <div class="row mx-auto my-auto justify-content-center">
+            <div id="recipeCarousel" class="carousel carouselCategorie  slide" data-bs-ride="carousel">
+              <div class="carousel-inner carousel-innerCategorie" role="listbox">
+                
          <?php
                             $cntrl  = new HomeController(); 
                             $recipes = $cntrl->getRecipes();
-
-                            foreach($recipes as $recipe)
-                            {
-
+                            $fr = 0 ;
+                            for ($i=0; $i < count($recipes) ; $i++) { 
+                              
+                            
+                              if ($i%4 == 0){       
                               ?>
-                              <div class="card-group">
-                              <a href="recipe.php?name=<?php echo $recipe['name'] ?>" >    <div class="card" style="width: 18rem;">
-                                    <img src="../public/images/recipes/couscous.jpg" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h2><?php echo $recipe['name'] ?></h2> 
-                                        <p class="card-text"><?php echo $recipe['name'] ?></p>
-                                    </div>
-                              </a>
-                              </div>
+                     
+                <div class="carousel-item carousel-itemCategorie <?php if ($i==0) echo "active" ?>  ">
+                        <?php 
+                        $this->card($recipes[$i]);
+                        ?>
+                    
 
-                              <div class="card" style="width: 18rem;">
-                                    <img src="../public/images/recipes/couscous.jpg" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <p class="card-text"><?php echo $recipe['name'] ?></p>
-                                    </div>
-                              </div>
+                      <?php if($i+1 <count($recipes)) {
+                        $this->card($recipes[$i+1]);
+                     }
+                      if($i+2 <count($recipes)) { 
+                        $this->card($recipes[$i+2]);
+                        
+                    
+                       }
+                      if($i+3 <count($recipes)) {
+                        $this->card($recipes[$i+3]);
+                       } ?>
+                </div>
 
-                              <div class="card" style="width: 18rem;">
-                                    <img src="../public/images/recipes/couscous.jpg" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <p class="card-text"><?php echo $recipe['name'] ?></p>
-                                    </div>
-                              </div>
-
-                              <div class="card" style="width: 18rem;">
-                                    <img src="../public/images/recipes/couscous.jpg" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <p class="card-text"><?php echo $recipe['name'] ?></p>
-                                    </div>
-                              </div>
-                            </div>
-                                
-                                <?php 
-                             } 
-                             ?>
-
+                <?php 
+                                }  }
+                            ?>
+          
+         
+              <a class="carousel-control-prev carousel-control-prevCategorie bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </a>
+              <a class="carousel-control-next carousel-control-nextCategorie bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </a>
+            </div>
+          </div>		
+        </div>
+    
+ 
         </main>
 
-        <?php
-     
-           
-     }
+        <script>
+        
+        let items = document.querySelectorAll('.carouselCategorie .carousel-itemCategorie')
 
-     public function header(){
+		items.forEach((el) => {
+			const minPerSlide = 4
+			let next = el.nextElementSibling
+			for (var i=1; i<minPerSlide; i++) {
+				if (!next) {
+            // wrap carousel by using first child
+            next = items[0]
+        }
+        let cloneChild = next.cloneNode(true)
+        el.appendChild(cloneChild.children[0])
+        next = next.nextElementSibling
+    }
+})
+
+        </script>
+
+      <?php
+   
+         
+   }
+
+    public function header(){
         ?>
 
-<header>
-                <img class='logo' src='../public/images/logo.png'>
+      <header>
+              <a href="./"><img class='logo' src='../public/images/logo.png'></a>  
                 <div class='Right-nav'>
                     <span>Follow Us</span>
                     <img class='icon' src="../public/images/icons/fb.png"/>
@@ -306,7 +386,7 @@ class GlobaleView{
     <?php
      }
 
-     public function navbar() {
+    public function navbar() {
         ?>
 
                     <div class="navbar">
@@ -330,7 +410,7 @@ class GlobaleView{
                 <a href="https://in.linkedin.com/in/jonesvinothjoseph" target="_blank">Season</a>
                 <a href="https://codepen.io/jo_Geek/" target="_blank">Healthy</a>
                 <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Ocassions</a>
-                <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Nutration</a>
+                <a href="./nutrition.php" target="_blank">Nutration</a>
 
             </div>
             </div>
@@ -344,133 +424,122 @@ class GlobaleView{
         ?>
 
 
-<!-- Footer -->
-<footer class="text-center text-lg-start bg-light text-muted">
-  <!-- Section: Social media -->
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-    <!-- Left -->
-    <div class="me-5 d-none d-lg-block">
-      <span>Get connected with us on social networks:</span>
-    </div>
-    <!-- Left -->
+            <!-- Footer -->
+            <footer class="text-center text-lg-start bg-light text-muted">
+              <!-- Section: Social media -->
+              <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+                <!-- Left -->
+                <div class="me-5 d-none d-lg-block">
+                  <span>Get connected with us on social networks:</span>
+                </div>
+                <!-- Left -->
 
-    <!-- Right -->
-    <div>
-      <a href="" class="me-4 text-reset">
-      <img class='icon' src="../public/images/icons/fb.png"/>
-       
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-twitter"></i>
-        <img class='icon' src="../public/images/icons/twtr.png"/>
+                <!-- Right -->
+                <div>
+                  <a href="" class="me-4 text-reset">
+                  <img class='icon' src="../public/images/icons/fb.png"/>
+                  
+                  </a>
+                  <a href="" class="me-4 text-reset">
+                    <img class='icon' src="../public/images/icons/twtr.png"/>
 
-      </a>
-      <a href="" class="me-4 text-reset">
-      <img class='icon' src="../public/images/icons/insta.png"/>
+                  </a>
+                  <a href="" class="me-4 text-reset">
+                  <img class='icon' src="../public/images/icons/insta.png"/>
 
-      <i class="fab fa-google"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="" class="me-4 text-reset">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <!-- Right -->
-  </section>
-  <!-- Section: Social media -->
+                  </a>
+                
+                </div>
+                <!-- Right -->
+              </section>
+              <!-- Section: Social media -->
 
-  <!-- Section: Links  -->
-  <section class="">
-    <div class="container text-center text-md-start mt-5">
-      <!-- Grid row -->
-      <div class="row mt-3">
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-          <!-- Content -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>DZ-Cooks
-          </h6>
-          <p>
-            DZ-cooks is website for your kitchen 
-          </p>
-        </div>
-        <!-- Grid column -->
+              <!-- Section: Links  -->
+              <section class="">
+                <div class="container text-center text-md-start mt-5">
+                  <!-- Grid row -->
+                  <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                      <!-- Content -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3"></i>DZ-Cooks
+                      </h6>
+                      <p>
+                        DZ-cooks is website for your kitchen 
+                      </p>
+                    </div>
+                    <!-- Grid column -->
 
-        <!-- Grid column -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
-           Les Sections
-          </h6>
-          <p>
-            <a href="#!" class="text-reset">Recettes</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">idee de recette</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Healthy</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">seasons</a>
-          </p>
-        </div>
-        <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                      Les Sections
+                      </h6>
+                      <p>
+                        <a href="#!" class="text-reset">Recettes</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">idee de recette</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Healthy</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">seasons</a>
+                      </p>
+                    </div>
+                    <!-- Grid column -->
 
-        <!-- Grid column -->
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">
-            Useful links
-          </h6>
-          <p>
-            <a href="#!" class="text-reset">Nutration</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Settings</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">fete</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset">Help</a>
-          </p>
-        </div>
-        <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">
+                        Useful links
+                      </h6>
+                      <p>
+                        <a href="#!" class="text-reset">Nutration</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Settings</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">fete</a>
+                      </p>
+                      <p>
+                        <a href="#!" class="text-reset">Help</a>
+                      </p>
+                    </div>
+                    <!-- Grid column -->
 
-        <!-- Grid column -->
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-          <!-- Links -->
-          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i> Algeria,Algeries ,ESI</p>
-          <p>
-            <i class="fas fa-envelope me-3"></i>
-            info@DZ-cooks.com
-          </p>
-          <p><i class="fas fa-phone me-3"></i> + 213 234 567 88</p>
-          <p><i class="fas fa-print me-3"></i> + 213 752 516 41</p>
-        </div>
-        <!-- Grid column -->
-      </div>
-      <!-- Grid row -->
-    </div>
-  </section>
-  <!-- Section: Links  -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                      <!-- Links -->
+                      <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                      <p><i class="fas fa-home me-3"></i> Algeria,Algeries ,ESI</p>
+                      <p>
+                        <i class="fas fa-envelope me-3"></i>
+                        info@DZ-cooks.com
+                      </p>
+                      <p><i class="fas fa-phone me-3"></i> + 213 234 567 88</p>
+                      <p><i class="fas fa-print me-3"></i> + 213 752 516 41</p>
+                    </div>
+                    <!-- Grid column -->
+                  </div>
+                  <!-- Grid row -->
+                </div>
+              </section>
+              <!-- Section: Links  -->
 
-  <!-- Copyright -->
-  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-    © 2021 Copyright:
-    <a class="text-reset fw-bold" href="https://mdbootstrap.com/">YassineDev.com</a>
-  </div>
-  <!-- Copyright -->
-</footer>
-<!-- Footer -->
+              <!-- Copyright -->
+              <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+                © 2021 Copyright:
+                <a class="text-reset fw-bold" href="https://mdbootstrap.com/">YassineDev.com</a>
+              </div>
+              <!-- Copyright -->
+            </footer>
+            <!-- Footer -->
         <?php
      }
     

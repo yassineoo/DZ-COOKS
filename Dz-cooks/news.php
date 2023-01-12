@@ -10,7 +10,7 @@ $cntrl = new HomeController();
 if (isset($_GET['name'] )) 
  {
 
-    $cntrl -> recipe($_GET['name'],intval( $_SESSION['id']));
+    $cntrl -> recipe($_GET['name']);
 
 }
     

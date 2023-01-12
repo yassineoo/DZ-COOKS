@@ -7,10 +7,10 @@ require_once "../controllers/homeController.php" ;
 session_start();
 
 $cntrl = new HomeController();
-if (isset($_GET['name'] )) 
+if (isset($_GET['categorie'] )) 
  {
 
-    $cntrl -> recipe($_GET['name'],intval( $_SESSION['id']));
+    $cntrl -> categoriePage($_GET['categorie']);
 
 }
     

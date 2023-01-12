@@ -24,16 +24,16 @@ class UserModel{
            if($count > 0)  
            {  
                $dbConn ->deconnexion($conn);
-                return 1; 
+                return $statement->fetchAll(); 
                 
                              
            }  
            else  
            {  
             $dbConn ->deconnexion($conn);
-            return 2;
+            return NULL;
            }  
-           return 2;
+           return NULL;
       
 
 

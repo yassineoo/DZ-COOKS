@@ -40,8 +40,10 @@ class recipeFormView{
 
         <div id="recipesFormRoot">
              <form class="recipes-form addform" enctype="multipart/form-data" method="POST" action="./addRecipe.php" >
-                 <div class="recipes-form__heading">  
-                    <h2>Add a New Recipe</h2></div>
+               
+                <div class="nine">
+                <h1>Ajouter une recette<span>Les information generale </span></h1>
+                </div>
                  <div class="recipes-form__section">
                      <div class="form-group">
                         <label for='title'>
@@ -102,8 +104,10 @@ class recipeFormView{
 
                     </div>
                    <?php  $this->line(); ?>
-                   <h3> Add your Ingredients one at a time </h3>
-                     <div class='ingredCon'>
+                   <div class="nine">
+                <h1><span>Les Ingredients necessaire </span></h1>
+                </div>
+                    <div class='ingredCon'>
                     <?php
                    
               
@@ -111,18 +115,23 @@ class recipeFormView{
                         
                     </div>
                   
-                    <button  class="addIngredient" id="addIngred" >+ Add Another Ingredient</button>
+                    <button  class="addIngredient btn btn-primary" id="addIngred" >+ Add Another Ingredient</button>
                     
                    <?php  $this->line();?>
-                   <h3> Add your instructions one at a time </h3>
-                   <div class='stepsCon'>
+                   <div class="nine">
+                <h1><span>Les etapes  </span></h1>
+                </div>
+                  <div class='stepsCon'>
 
                         <?php 
                          
                         ?>
                    </div>
-                   <button  class="addIngredient" id="addaStep" >+ Add Another Step</button>
+                   <button  class="addIngredient btn btn-primary" id="addaStep" >+ Add Another Step</button>
                    <?php  $this->line();?>
+                   <div class="nine">
+                <h1><span>Les Informations supplementaire </span></h1>
+                </div>
                    <h3> Tag your Recipe</h3>
                    
                             
@@ -169,7 +178,7 @@ class recipeFormView{
              <input type="hidden" name="INumber" id="INumber"   value="3"  />
             <input type="hidden" name="SNumber" id="SNumber"   value="3"  />
         
-                <button type="submit" name="submit"> Submit </button>
+                <button type="submit" name="submit" class="btn btn-primary submitFinale"> Submit </button>
                 </form>
             </div>
         </div>

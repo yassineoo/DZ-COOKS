@@ -54,16 +54,18 @@ class UserController {
        }else{
           $model = new UserModel();
           $res =   $model->login($email,$pass,$admin);
-          if ($res == 1){
+          if ($res != null){
              
              
               if ($admin) {
                 $_SESSION["admin"] = $email;  
             }
             else {
-                $_SESSION["username"] = $email;  
+                $_SESSION["username"] = $res[0][1]." ".$res[0][2];  
+                $_SESSION["id"] = $res[0][0];
                
             }
+        
             header("location:./index.php");  
              
           

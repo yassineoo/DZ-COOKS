@@ -1,5 +1,6 @@
 <?php 
 require_once "../controllers/nutrationController.php";
+require_once "../views/recipeView.php";
 
 class RecipeIdeaView  {
 
@@ -14,6 +15,10 @@ class RecipeIdeaView  {
             <script src="../public/js/bootstrap.bundle.min.js"></script>
             <script src="../public/js/autocomplete.js"></script>
             <script src='../public/js/jQuery.js'></script>
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href= "../public/css/recipe.css">
+
 
         </head>
      <body>
@@ -73,7 +78,10 @@ class RecipeIdeaView  {
                 </div>
         </div>
         <div class="resCon">
-          
+
+            <?php 
+            $view = new RecipeView();
+            $view->filterForm(); ?>
             <div class="res">
                 
             </div>
@@ -132,53 +140,61 @@ $(document).ready(function(){
                  if(parseInt($('#listCounter').val()) >=2 ) {
                     console.log("it time to think");
                 let ingredientList = []
-                    $('.ingredientList >li').each(function () { 
-                        ingredientList.push( this.childNodes[0].nodeValue.trim()); 
-            });  
+                        $('.ingredientList >li').each(function () { 
+                            ingredientList.push( this.childNodes[0].nodeValue.trim()); 
+                              });  
 
-                console.log(ingredientList);
-            
-                $.ajax({
-                    type: "POST",
-                    url: "idea.php",
-            data: {"ingredientList" : ingredientList },
-            cache: false,
-            success: function(data) {
-                let   recipes  = JSON.parse(data)  ;
-                console.log(recipes);
-              $('.res').html('<h3><span class="resNumber">28</span>  recettes basées sur vos ingrédients <span class="ideaNumber"></span></h3>')
-              $('.resNumber').html(recipes.length);
-              for (let i = 0; i < recipes.length; i++) {
-                const recipe = recipes[i];
-                    $(".res").append(`<div class="ideacard ">
-              <img src="../public/images/recipes/${recipe[0]['imgPath']}" alt="recipe Image" />
-              <div class="rightRecipe">
-              <h3>${recipe[0]['name']}</h3> 
-              <h4>les ingredient : </h4> 
-              <p> ${recipe.slice(-1)} </p>
+                            console.log(ingredientList);
+                        
+                            $.ajax({
+                                type: "POST",
+                                url: "idea.php",
+                        data: {"ingredientList" : ingredientList },
+                        cache: false,
+                        success: function(data) {
+                            console.log(data);
+                            let   recipes  = JSON.parse(data)  ;
+                          
+                          console.log(recipes);
+                        $('.res').empty();
+                        $('.res').html('<h3><span class="resNumber">28</span>  recettes basées sur vos ingrédients <span class="ideaNumber"></span></h3>')
+                        $('.resNumber').html(recipes.length);
+                        for (let i = 0; i < recipes.length; i++) {
+                            const recipe = recipes[i];
+                                        $(".res").append(`
+                            <div class="ideacard ">
+                             <div class="imageCon">
+                             <img class="recipeImage" src="../public/images/recipes/${recipe[0]['imgPath']}" alt="recipe Image" />
+                             </div>
+                                <div class="rightRecipe">
+                                <h3>${recipe[0]['name']}</h3> 
+                                <h4>les ingredient : </h4> 
+                                <p> ${recipe.slice(-1)} </p>
 
 
-              <div class="timeRecipeCon">
-              <img class="icon" src="../public/images/icons/time.png" alt="">
-              <h3 class="timeRecipe">${
-                parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
-                </h3> 
-                
-            </div>
-              
-            <span class="sperator">
-                </span>
-              </div> 
-              </div>`)
-                
-              }
-          
-        
-            },
-            error: function(xhr, status, error) {
-            console.error(xhr);
-            }
-            });
+                                <div class="timeRecipeCon">
+                                <img class="icon" src="../public/images/icons/time.png" alt="">
+                                <h3 class="timeRecipe">${
+                                    parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
+                                    </h3> 
+                                    
+                                </div>
+                                
+                                <span class="sperator">
+                                    </span>
+                                </div> 
+                                </div>`)
+                                    
+                        }
+                    
+                    
+                        },
+                        error: function(xhr, status, error) {
+                        console.error(xhr);
+                        
+                        }
+                        });
+                        
 
 
 
@@ -207,28 +223,73 @@ $(document).ready(function(){
 
         
         </script>
-
+     <script src="../public/js/range.js"></script>
 
 <script>
- $(document).ready(function() {
- 
- $("#submit").click(function() {
- 
- var firstName = $("#firstName").val();
- var lastName = $("#lastName").val();
- var email = $("#email").val();
- var message = $("#message").val();
- 
- if(firstName==''||lastName==''||email==''||message=='') {
- alert("Please fill all fields.");
- return false;
- }
- 
- 
- });
- 
- });
- </script>
+
+<script>
+      $(document).ready(function(){
+
+        $("#filterButton").click((e) => {
+          e.preventDefault();
+          console.log( $("input[name='saison']:checked").val());
+          data = { 
+            saison: $("input[name='saison']:checked").val(),
+            star :[$('#fromInputStar').val(),$('#toInputStar').val()] ,
+            calorie :[$('#fromInputCalories').val(),$('#toInputCalories').val()] ,
+            cuisson :[$('#fromInputcuisson').val(),$('#toInputcuisson').val()] ,
+            totale :[$('#fromInputTotale').val(),$('#toInputTotale').val()] ,
+            preparation :[$('#fromInput').val(),$('#toInput').val()] ,
+            sortBy:$("#sortBy").val()
+          }
+          console.log("****************");
+          console.log(data);
+          $.ajax({
+                                      type: "POST",
+                                      url: "filter.php",
+                              data: { "filter":data , ""},
+                              cache: false,
+                              success: function(data) {
+                                console.log(data);
+                                    dataa= JSON.parse(data)
+                                $(".card-group").empty();
+                                for (let i = 0; i < dataa.length; i++) {
+                                  const recipe = dataa[i];
+                                  $(".card-group").append(`
+                   
+                                  <div class="col-md-3 cardCon">          
+                                                    <div class="card">
+                                                          <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
+                                                          <div class="card-body">
+                                                              <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
+                                                              <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
+                                                              <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
+                                                          </div>
+                                                      </div>
+
+                                  </div>
+                                                              `)
+                                  
+                                }
+                                      }
+                            
+                          
+                              ,
+                              error: function(xhr, status, error) {
+                              console.error(xhr);
+                              }
+                              });
+
+
+
+        })
+        
+      });  
+      
+    </script>
+
+</script>
+
     </body>
 
  

@@ -88,7 +88,7 @@ nav {
      display: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
      .navbar > .navbar-btn {
           display: inline-block;
           position: absolute;
@@ -185,10 +185,11 @@ nav {
 #recipesFormRoot * {
      margin-top: 16px;
 }
+
 .addform {
      width: 65%;
      margin: auto;
-     background-color: #ddd;
+     background-color: #eee;
      border: 1px solid;
      display: felx;
      flex-direction: column;
@@ -196,10 +197,36 @@ nav {
      //justify-content: center;
      // align-items: center;
      // background-color:green;
+     // margin: 0 0.5em;
+     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+     border: none;
+}
 
-     box-shadow: 3px -6px 92px 0px rgba(77, 72, 72, 0.93);
-     -webkit-box-shadow: 3px -6px 92px 0px rgba(77, 72, 72, 0.93);
-     -moz-box-shadow: 3px -6px 92px 0px rgba(77, 72, 72, 0.93);
+.addIngredient,
+.addInfo {
+     background: #f3783d !important;
+     // width: 30%;
+     margin: auto;
+     font-wight: bold;
+}
+.submitFinale {
+     background: #f3783d !important;
+     font-wight: bold;
+}
+@media (max-width: 750px) {
+     .addform {
+          width: 95% !important;
+     }
+     .rowInput input {
+          width: 70px;
+          height: 35px;
+     }
+     .rowInput label {
+          width: 120px;
+     }
+     .ingredient {
+          flex-direction: column;
+     }
 }
 .recipes-form__heading {
      margin: auto;
@@ -220,7 +247,7 @@ nav {
 }
 .rowInput input {
      width: 126px;
-     height: 45px;
+     height: 35px;
 }
 
 .rowInput label {
@@ -258,4 +285,242 @@ nav {
 .Ingredientform {
      display: flex;
      flex-direction: column;
+}
+
+.diapo .carousel-item img {
+     height: 270px !important;
+}
+.carousel-itemCategorie img {
+     height: 130px !important;
+}
+.carousel-item img {
+     //   height: 270px !important;
+     object-fit: cover;
+}
+.carousel-itemCategorie h5 {
+     font-weight: bold;
+}
+.carousel-itemCategorie p {
+     font-size: 14px;
+}
+.diapo .carousel-item h5 {
+     font-wight: 1200;
+     opacity: 1;
+     color: white !important;
+     font-size: 32px;
+     color: black;
+}
+.diapo .carousel-caption {
+     background: #222;
+     opacity: 0.8;
+     transform: rotate(45deg) translateX(-200px) translateY(80px);
+     //   transform: translateY(-150px);;
+     //   transform: translateY(-150px);;
+     //   transform: translateY(-150px);;
+}
+
+@media (max-width: 767px) {
+     .carousel-innerCategorie .carousel-itemCategorie > div {
+          display: none;
+     }
+     .carousel-innerCategorie .carousel-itemCategorie > div:first-child {
+          display: block;
+     }
+}
+
+.carousel-innerCategorie .carousel-item.active,
+.carousel-innerCategorie .carousel-item-next,
+.carousel-innerCategorie .carousel-item-prev {
+     display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+     .carousel-innerCategorie .carousel-item-end.active,
+     .carousel-innerCategorie .carousel-item-next {
+          transform: translateX(25%);
+     }
+
+     .carousel-innerCategorie .carousel-item-start.active,
+     .carousel-innerCategorie .carousel-item-prev {
+          transform: translateX(-25%);
+     }
+}
+
+.carousel-innerCategorie .carousel-item-end,
+.carousel-innerCategorie .carousel-item-start {
+     transform: translateX(0);
+}
+
+.card {
+     margin: 0 0.5em;
+     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+     border: none;
+}
+
+.cardCon {
+     padding: 0 !important;
+}
+
+.card img {
+     height: 130px !important;
+}
+.card img {
+     //   height: 270px !important;
+     object-fit: cover;
+}
+.card h5 {
+     font-weight: bold;
+}
+.card {
+     font-size: 14px;
+}
+
+select::-ms-expand {
+     display: none;
+}
+
+select {
+     // A reset of styles, including removing the default dropdown arrow
+     appearance: none;
+     // Additional resets for further consistency
+     background-color: transparent;
+     border: none;
+     padding: 0 1em 0 0;
+     margin: 0;
+     width: 100%;
+     font-family: inherit;
+     font-size: inherit;
+     cursor: inherit;
+     line-height: inherit;
+     outline: none;
+}
+
+.select {
+     width: 100%;
+     min-width: 15ch;
+     max-width: 30ch;
+     border: 1px solid var(--select-border);
+     border-radius: 0.25em;
+     padding: 0.25em 0.5em;
+     font-size: 1.25rem;
+     cursor: pointer;
+     line-height: 1.1;
+     background-color: #fff;
+     display: grid;
+     grid-template-areas: 'select';
+     align-items: center;
+     background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+}
+
+.select::after {
+     content: '';
+     width: 0.8em;
+     height: 0.5em;
+     background-color: var(--select-arrow);
+     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+select,
+.select:after {
+     grid-area: select;
+
+     justify-self: end;
+}
+
+.nine h1 {
+     text-align: center;
+     font-size: 40px;
+     text-transform: uppercase;
+     color: #222;
+     letter-spacing: 1px;
+     font-family: 'Playfair Display', serif;
+     font-weight: 400;
+}
+.nine h1 span {
+     margin-top: 5px;
+     font-size: 15px;
+     color: #444;
+     word-spacing: 1px;
+     font-weight: normal;
+     letter-spacing: 2px;
+     text-transform: uppercase;
+     font-family: 'Raleway', sans-serif;
+     font-weight: 500;
+
+     display: grid;
+     grid-template-columns: 1fr max-content 1fr;
+     grid-template-rows: 27px 0;
+     grid-gap: 20px;
+     align-items: center;
+}
+
+.nine h1 span:after,
+.nine h1 span:before {
+     content: ' ';
+     display: block;
+     border-bottom: 1px solid #ccc;
+     border-top: 1px solid #ccc;
+     height: 5px;
+     background-color: #f8f8f8;
+}
+
+* {
+     font-family: 'Playfair Display', serif;
+}
+
+.NutrationCon {
+     width: 70%;
+     margin-top: 20px;
+     margin: auto;
+}
+
+table {
+     margin-top: 15px;
+     margin: auto;
+     background-color: #eee;
+}
+table th {
+     margin-top: 15px;
+     margin: auto;
+     background-color: #f3783d;
+}
+
+.ingredientListCon {
+     margin: 8px;
+     font-size: 16px;
+     display: flex;
+     flex-wrap: wrap;
+     flex-direction: row !important;
+}
+
+.vitamineList td {
+     margin: 6px;
+}
+
+.pobularIngredient {
+     background-color: #f3783d;
+     padding: 4px;
+     border-radius: 16px;
+     margin: 3px;
+}
+.categorieHead {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.categorieHead a {
+     margin: 15px;
+     margin-right: 40px;
+}
+
+.categorieHead .categorieTitle {
+     text-align: center;
+     margin-left: 120px;
+     font-size: 40px;
+     text-transform: uppercase;
+     color: #222;
+     letter-spacing: 1px;
+     font-family: 'Playfair Display', serif;
+     font-weight: 400;
 }

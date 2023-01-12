@@ -79,9 +79,11 @@
      margin-top: 6px;
      font-weight: bold;
 }
-.ideacard img {
+.ideacard .recipeImage {
      flex: 0.3;
-     width: 40%;
+     width: 150px !important;
+     height: 180px !important;
+     object-fit: cover;
      margin: 6px;
 }
 .rightRecipe h4 {

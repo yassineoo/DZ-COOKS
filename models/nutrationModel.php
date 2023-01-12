@@ -156,6 +156,52 @@ class NutrationModel{
     }
 
 
+    public function IngredientList(){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+     
+            $sql="SELECT * FROM  ingredient";
+            $args=[];
+        
+    
+        $result = $dbConn->request($conn,$sql,$args);
+      
+        $dbConn ->deconnexion($conn);
+
+        return $result->fetchAll();
+    }
+
+    public function getAllInfo($id=null){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        
+            $sql1= "SELECT * FROM  `ingredient` 
+            INNER JOIN `vitin` on ingredient.id = vitin.idIngred  
+             where id=?;";
+                $sql2= "SELECT * FROM  `ingredient` 
+            
+            inner join  `infoin`       on ingredient.id=infoin.idIngred   
+          where id=?;";  
+              $sql3= "SELECT * FROM  `ingredient` 
+
+             inner join `minerauxin`  on  ingredient.id=minerauxin.idIngred  where id=?;";
+            $args=[$id];
+        
+        $vitin = $dbConn->request($conn,$sql1,$args)->fetchAll();
+        $infoin = $dbConn->request($conn,$sql2,$args)->fetchAll();
+        $minerauxin = $dbConn->request($conn,$sql3,$args)->fetchAll();
+      
+        $dbConn ->deconnexion($conn);
+
+        return [$vitin,$infoin,$minerauxin];
+    }
+
+
+
+
+
 
     public function getPercentage(){
         $dbConn = new Dbconnection();
@@ -173,6 +219,26 @@ class NutrationModel{
 
   
 
+   public function ideaSql($ingredList){
+    $first=1 ;
+    $sql="";
+    foreach ($ingredList as $ingred) {
+        $ingred=str_replace("'","\\'",$ingred);
+        if ($first == 0){
+            $sql=$sql." UNION  SELECT * from makein INNER JOIN (SELECT id FROM `ingredient` WHERE name='$ingred') as res1 ON makein.idingred = res1.id";
+        }
+        else {
+            $first=0 ;
+            $sql=$sql."SELECT * from makein INNER JOIN (SELECT id FROM `ingredient` WHERE name='$ingred') as res1 ON makein.idingred = res1.id  ";
+        }
+
+    }
+    
+    return  "SELECT idRecipe,count(idingred) as num from (".$sql.") as res2  GROUP BY res2.idRecipe; ";
+ 
+   }
+
+
 
 
     public function ideaGenerator($ingredList) {
@@ -181,27 +247,14 @@ class NutrationModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         
-      
-
-        $first=1 ;
-        $sql="";
-        foreach ($ingredList as $ingred) {
-            if ($first == 0){
-                $sql=$sql." UNION  SELECT * from makein INNER JOIN (SELECT id FROM `ingredient` WHERE name='".$ingred."') as res1 ON makein.idingred = res1.id  ";
-            }
-            else {
-                $first=0 ;
-                $sql=$sql."SELECT * from makein INNER JOIN (SELECT id FROM `ingredient` WHERE name='".$ingred."') as res1 ON makein.idingred = res1.id  ";
-            }
-
-        }
-        
-        $sqlFinale = "SELECT idRecipe,count(idingred) as num from (".$sql.") as res2  GROUP BY res2.idRecipe; ";
+    
+        $sqlFinale =$this->ideaSql($ingredList);
+           
         $args=[];
         $ideas = $dbConn->request($conn,$sqlFinale,$args);
         $dbConn ->deconnexion($conn);
-        
-        return $ideas->fetchAll() ;
+       //echo $sqlFinale;
+        return $ideas; 
     }
 
 
