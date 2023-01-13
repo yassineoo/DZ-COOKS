@@ -1,4 +1,6 @@
 <?php
+require_once "../controllers/homeController.php";
+require_once "../controllers/dashboardController.php";
 
 class AdminView {
 
@@ -10,11 +12,18 @@ class AdminView {
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-
+      
             <title>LOGIN</title>
 
             <link rel="stylesheet" type="text/css" href= "../public/css/admin.css">
             <link rel="stylesheet" type="text/css" href= "../public/css/home.css">
+
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+            <!-- Select2 CSS -->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css" rel="stylesheet" />
+            <!-- Select2 CSS -->
+            <link href="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+
 
         </head>
      <?php  
@@ -42,7 +51,68 @@ class AdminView {
             </header>
         <?php
     }
-    public function table(){
+    public function userTable(){
+
+            ?>
+
+                          <div  class="userTable table-responsive "   
+                          id="table" 
+                            data-toggle="table"
+                            data-search="true"
+                            data-filter-control="true" 
+                            data-show-export="true"
+                            data-click-to-select="true"
+                            data-toolbar="#toolbar"
+                            class="table-responsive">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+
+                                <h1> Users </h1>
+                                <table id="table" class="table table-striped nowrap" style="width:100%">
+                                    <thead>
+                                  
+	
+	
+                                        <tr>
+                                         
+                                            <th  data-field="date" data-filter-control="select"  scope="col" class='th-sm' data-field="state" data-checkbox="true">Name</th>
+                                            <th  data-field="email" data-filter-control="select" scope="col" class='th-sm' data-field="prenom" >Email</th>
+                                            <th  data-field="sex" data-filter-control="select" scope="col" class='th-sm'>sex</th>
+                                            <th  data-field="confirmed" data-sortable="true" scope="col" class='th-sm'>confirmed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                            $cntrl  = new dashboardController(); 
+                                        	$users = $cntrl->getUsers();
+                                            $i = 0;
+                                            foreach($users as $user)
+                                            {
+                                        ?>
+                                        
+                                        <tr>
+
+                                            <td><?php echo $user['FirstName'].' '.$user['lastName']?></td>
+                                            <td><?php echo $user['email']?></td>
+                                            <td><?php echo $user['sex']?></td>
+
+                                            <td><form action='operations.php' method="POST" > 
+                                                <input hidden value =<?php echo $user['id']?> name='id'/>
+                                                <button type="submit" name='confirme' class="btn btn-primary" <?php echo $user['confirmed']?'disabled':'' ?> >confirme</button></form></td>
+                                        </tr>
+                                      
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                              
+                            </div>
+      
+
+            <?php
+        }
+
+
+        public function userTable2(){
 
             ?>
 
@@ -53,19 +123,23 @@ class AdminView {
                                 data-show-export="true"
                                 data-click-to-select="true"
                                 data-toolbar="#toolbar">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
 
                                 <h1> Users </h1>
-                                <table class="table">
+                                <table id="table" class="table table-striped nowrap" style="width:100%">
                                     <thead>
+                                  
+	
+	
                                         <tr>
                                          
                                             <th scope="col" class='th-sm' data-field="state" data-checkbox="true">Name</th>
-                                            <th scope="col" class='th-sm'>Email</th>
+                                            <th scope="col" class='th-sm' data-field="prenom" data-filter-control="input" data-sortable="true">Email</th>
                                             <th scope="col" class='th-sm'>sex</th>
                                             <th scope="col" class='th-sm'>confirmed</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
                                         <?php
                                             $cntrl  = new dashboardController(); 
                                         	$users = $cntrl->getUsers();
@@ -87,43 +161,69 @@ class AdminView {
                                         ?>
                                     </tbody>
                                 </table>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                         
-                                            <th scope="col" class='th-sm' data-field="state" data-checkbox="true">Name</th>
-                                            <th scope="col" class='th-sm'>Email</th>
-                                            <th scope="col" class='th-sm'>sex</th>
-                                            <th scope="col" class='th-sm'>confirmed</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            $cntrl  = new dashboardController(); 
-                                        	$users = $cntrl->getUsers();
-                                            foreach($users as $user)
-                                            {
-                                        ?>
-                                        
-                                        <tr>
-                                            <td><?php echo $user['FirstName'].' '.$user['lastName']?></td>
-                                            <td><?php echo $user['email']?></td>
-                                            <td><?php echo $user['sex']?></td>
-
-                                            <td><form action='operations.php' method="POST" > 
-                                                <input hidden value =<?php echo $user['id']?> name='id'/>
-                                                <button type="submit" name='confirme' class="btn btn-primary" <?php echo $user['confirmed']?'disabled':'' ?> >confirme</button></form></td>
-                                        </tr>
-                                      
-                                        <?php }
-                                        ?>
-                                    </tbody>
-                                </table>
+                              
                             </div>
+      
 
             <?php
         }
 
+
+        public function recipeTable(){
+
+            ?>
+
+                          <div  class="userTable table-responsive "  id="table" 
+                                data-toggle="table"
+                                data-search="true"
+                                data-filter-control="true" 
+                                data-show-export="true"
+                                data-click-to-select="true"
+                                data-toolbar="#toolbar">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+
+                                <h1> Les recettes </h1>
+                                <table id="table" class="table table-striped nowrap" style="width:100%">
+                                    <thead>
+                                  
+	
+	
+                                        <tr>
+                                         
+                                            <th scope="col" class='th-sm' data-field="state" data-checkbox="true">Nom</th>
+                                            <th scope="col" class='th-sm' data-field="prenom" data-filter-control="input" data-sortable="true">writer</th>
+                                            <th scope="col" class='th-sm'>image</th>
+                                            <th scope="col" class='th-sm'>confirmé</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                            $cntrl  = new HomeController(); 
+                                        	$recipes = $cntrl->getRecipes();
+                                            foreach($recipes as $recipe)
+                                            {
+                                        ?>
+                                        
+                                        <tr>
+                                            <td><?php echo $recipe['name']?></td>
+                                            <td><?php echo $recipe['writer']?></td>
+                                            <td><img src="../public/images/recipes/<?php echo $recipe['imgPath']?>"  width="100" height="50"  style="object-fit:cover;" alt=""> <?php echo $recipe['imgPath']?></td>
+
+                                            <td><form action='operations.php' method="POST" > 
+                                                <input hidden value =<?php echo $recipe['id']?> name='id'/>
+                                                <button type="submit" name='confirmeRecipe' class="btn btn-primary" <?php echo $recipe['aprroved']?'disabled':'' ?> >confirme</button></form></td>
+                                        </tr>
+                                      
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                              
+                            </div>
+      
+
+            <?php
+        }
 
         public function sideBar($num) {
             ?>
@@ -145,7 +245,7 @@ class AdminView {
                 </a>
                 </li>
                 <li>
-                <a href="./resipes" class="nav-link text-white <?php if($num==2) { echo " active" ; } ?> ">
+                <a href="./recipes" class="nav-link text-white <?php if($num==2) { echo " active" ; } ?> ">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
                     Recipes
                 </a>
@@ -194,24 +294,63 @@ class AdminView {
             
                 <?php
              $this->sidebar($num);
-            $this->table() ;
+            if ($num ==3) {
+                $this->userTable() ;
+                # code...
+             }  else if ($num == 2) {
+                    $this->recipeTable() ;
+                
+             }
+
+
             ?> 
             </main>
             <script src='../public/js/jQuery.js'></script>
-            <script>
+       
+        
+    <!-- jQuery -->
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js"></script>
+    <script src="https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js"></script>
 
-            <script>
-            $(document).ready(function(){
-            $("#myInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
+
+
+    <script>
+    
+var $table = $('#table');
+    $(function () {
+        $('#toolbar').find('select').change(function () {
+            $table.bootstrapTable('refreshOptions', {
+                exportDataType: $(this).val()
             });
-            });
-            </script>
-                        
-             </script>
+        });
+    })
+
+		var trBoldBlue = $("table");
+
+	$(trBoldBlue).on("click", "tr", function (){
+			$(this).toggleClass("bold-blue");
+	});
+    </script>
+
+-->          
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>            
+  <script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
             <?php
         }
 

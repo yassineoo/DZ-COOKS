@@ -172,26 +172,35 @@ class Autocomplete {
                                     $('.resNumber').html(recipes.length);
                                     for (let i = 0; i < recipes.length; i++) {
                                         const recipe = recipes[i];
-                                                    $(".res").append(`<div class="ideacard ">
-                                            <img src="../public/images/recipes/${recipe[0]['imgPath']}" alt="recipe Image" />
-                                            <div class="rightRecipe">
-                                            <h3>${recipe[0]['name']}</h3> 
-                                            <h4>les ingredient : </h4> 
-                                            <p> ${recipe.slice(-1)} </p>
-
-
-                                            <div class="timeRecipeCon">
-                                            <img class="icon" src="../public/images/icons/time.png" alt="">
-                                            <h3 class="timeRecipe">${
-                                                parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
-                                                </h3> 
-                                                
-                                            </div>
-                                            
-                                            <span class="sperator">
-                                                </span>
-                                            </div> 
-                                            </div>`)
+                                                     $(".res").append(`
+                                                    <div class="ideacard ">
+                                                     <div class="imageCon">
+                                                     <img class="recipeImage" src="../public/images/recipes/${recipe[0]['imgPath']}" alt="recipe Image" />
+                                                     </div>
+                                                        <div class="rightRecipe">
+                                                        <h3>${recipe[0]['name']}</h3> 
+                                                        <h4>les ingredient : </h4> 
+                                                        <p> ${recipe.slice(-1)} </p>
+                                                        <a href="./recipe?name=${recipe[0]["name"] }" class="btn btn-primary">voire la suite</a>
+                        
+                        
+                                                       
+                                                        <div class="timeRecipeCon">
+                                                        <img class="icon" src="../public/images/icons/time.png" alt="">
+                                                       
+                                                        <h3 class="timeRecipe">${
+                                                            parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
+                                                            </h3> 
+                        
+                                                            
+                                                        </div>
+                                                        
+                                                        <span class="sperator">
+                                                            </span>
+                        
+                                                        </div> 
+                                                        </div>`)
+                                                            
                                                 
                                     }
               

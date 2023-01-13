@@ -139,13 +139,13 @@ class RecipeModel{
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
-        $sql='UPDATE user SET aprroved=1 WHERE id=?;';
+        $sql='UPDATE `recipe` SET aprroved=1 WHERE id=?;';
 
             $args=[$id];
        
             
         
-        $user = $dbConn->request($conn,$sql,$args);
+        $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
 
         return 1;
@@ -369,7 +369,7 @@ class RecipeModel{
         $MIN =$filter['calorie'][0];
         $MAX =$filter['calorie'][1];
         $sql=  $sql. " calorieF  BETWEEN $MIN AND $MAX  ";
-        if ( $filter['sortBy'] == "NC") $sql=  $sql." ORDER BY sortByF";
+        if ( $filter['sortBy'] == "NC") $sql=  $sql." ORDER BY calorieF";
         if ( $filter['sortBy'] == "TP") $sql=  $sql." ORDER BY preparationTime";
         if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY preparationTime + cookingTime";
         if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY cookingTime";
@@ -379,11 +379,9 @@ class RecipeModel{
        
             
         
-        // $res = $dbConn->request($conn,$sql,$args);
+        $res = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
-
-        // return  $res ->fetchAll();
-        return $sql;
+        return  $res ->fetchAll();
 
     }
 

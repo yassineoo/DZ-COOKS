@@ -11,16 +11,24 @@
 */
  
 // POST Data
-$cntrl = new NutrationController();
-$ideas = $cntrl -> ideaGenerator($_POST['ingredientList']);
 
-$p=  $cntrl-> getPercentage(); 
+$cntrl = new HomeController();
+if(isset ($_POST["filter"])) {
+$ideas = $cntrl -> filtrageIdea($_POST["filter"], $_POST['ingredientList']);
+//echo $ideas;
+//echo json_encode($ideas);
+
+}
+else  $ideas = $cntrl -> ideaGenerator($_POST['ingredientList']);
+$cntrlN = new NutrationController();
+
+$p=  $cntrlN-> getPercentage(); 
 
 $res = array();
 foreach ($ideas as $recipe) {
     $cntrlh = new HomeController();
     if(intval($recipe['num'])/count($_POST['ingredientList'])   > $p/100) {
-        $variable = $cntrlh->getRecipes($recipe['idRecipe']);
+        $variable = $cntrlh->getRecipes($recipe['id']);
         $ingredList = array();
         foreach ($variable as  $value) {
         array_push($ingredList, $value['ingredName']);

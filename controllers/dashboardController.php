@@ -25,15 +25,28 @@ class DashboardController {
 
     
 }
+public function recipes($error=null) {
+  $view = new adminView();
+  $view->head();
+  $view->navbar();
+  $view->main(2);
+
+  
+}
 
   public function getUsers($id=null) {
     $model = new userModel();
     return $model->getUsers($id);
     }
-  public function confirme($id){
+  public function confirmeUser($id){
     $model = new userModel();
     return $model->confirme($id);
   }
+  public function confirmeRecipe($id){
+    $model = new RecipeModel();
+    return $model->aprroved($id);
+  }
+
 
 
 

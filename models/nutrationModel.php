@@ -234,7 +234,7 @@ class NutrationModel{
 
     }
     
-    return  "SELECT idRecipe,count(idingred) as num from (".$sql.") as res2  GROUP BY res2.idRecipe; ";
+    return  "SELECT * FROM recipe INNER JOIN ( SELECT idRecipe ,count(idingred) as num from (".$sql.") as res2  GROUP BY res2.idRecipe ) as finale  on recipe.id = finale.idRecipe ";
  
    }
 
@@ -253,7 +253,7 @@ class NutrationModel{
         $args=[];
         $ideas = $dbConn->request($conn,$sqlFinale,$args);
         $dbConn ->deconnexion($conn);
-       //echo $sqlFinale;
+//        echo $sqlFinale;
         return $ideas; 
     }
 

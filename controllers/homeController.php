@@ -147,12 +147,26 @@ public function recipeIdea() {
   
   }
 
+
+  public function ideaGenerator($ingredList){
+    $model = new NutrationModel();       
+    return $model->ideaGenerator($ingredList);
+    
+  }
   public function filtrage($filter){
 
    $model = new RecipeModel();
     return $model ->filtrage($filter,"recipe"); 
   }
 
+  
+  public function filtrageIdea($filter ,$ingredList){
+    $model1 = new NutrationModel();       
+    $input = $model1->ideaSql($ingredList);
+     $model = new RecipeModel();
+      return $model ->filtrage($filter,"(".$input.")"); 
+    }
+  
 
 
  

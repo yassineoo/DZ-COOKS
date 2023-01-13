@@ -10,9 +10,17 @@
     }
     
     $id=$_POST['id'];
+    if (isset($_POST['confirme'])) {
+        $cntrl->confirme($id);
+        header('location: ./users.php');
+    }  
+    elseif(isset($_POST["confirmeRecipe"])) {
+        $cntrl->confirmeRecipe($id);
+        header('location: ./recipes.php');
+
+    }
     
-    $cntrl->confirme($id);
     
   
-    header('location: ./index.php')
+    
 ?>

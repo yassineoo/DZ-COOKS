@@ -208,7 +208,10 @@ class GlobaleView{
         <?php
         $this->header();  
         $this->diaporama();
-        $this->contune();
+        $this->contune('Entreés');
+        $this->contune('plats');
+        $this->contune('Desserts');
+        $this->contune('Les Boissons');
         $this->footer();
         ?>
 
@@ -273,11 +276,11 @@ class GlobaleView{
       <?php
     }
    
-    public function contune() {
+    public function contune($title) {
       ?>
       <main>
          <div class="categorieHead">
-           <h2 class="categorieTitle">plats</h2>
+           <h2 class="categorieTitle"><?php echo  $title ?></h2>
            <a href="./categories?categorie=plats" class="btn btn-secondary"> voir tous</a>
         </div>
    
@@ -392,9 +395,11 @@ class GlobaleView{
                     <div class="navbar">
             <input type="checkbox" id="navbar-check">
             <div class="navbar-header">
+                <a href="./" style="color:white">
                 <div class="navbar-title">
-                Home
+                    Home
                 </div>
+                </a> 
             </div>
             <div class="navbar-btn">
                 <label for="navbar-check">

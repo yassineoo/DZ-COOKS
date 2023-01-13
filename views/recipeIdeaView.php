@@ -156,7 +156,7 @@ $(document).ready(function(){
                             let   recipes  = JSON.parse(data)  ;
                           
                           console.log(recipes);
-                        $('.res').empty();
+                          $('.res').empty();
                         $('.res').html('<h3><span class="resNumber">28</span>  recettes basées sur vos ingrédients <span class="ideaNumber"></span></h3>')
                         $('.resNumber').html(recipes.length);
                         for (let i = 0; i < recipes.length; i++) {
@@ -170,6 +170,7 @@ $(document).ready(function(){
                                 <h3>${recipe[0]['name']}</h3> 
                                 <h4>les ingredient : </h4> 
                                 <p> ${recipe.slice(-1)} </p>
+                                <a href="./recipe?name=${recipe[0]["name"] }" class="btn btn-primary">voire la suite</a>
 
 
                                 <div class="timeRecipeCon">
@@ -177,6 +178,7 @@ $(document).ready(function(){
                                 <h3 class="timeRecipe">${
                                     parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
                                     </h3> 
+
                                     
                                 </div>
                                 
@@ -225,7 +227,7 @@ $(document).ready(function(){
         </script>
      <script src="../public/js/range.js"></script>
 
-<script>
+
 
 <script>
       $(document).ready(function(){
@@ -244,41 +246,70 @@ $(document).ready(function(){
           }
           console.log("****************");
           console.log(data);
-          $.ajax({
+
+          $('#listCounter').val(parseInt($('#listCounter').val())+1);
+          if(parseInt($('#listCounter').val()) >=2 ) {
+            console.log("it time to think");
+                    let ingredientList = []
+                        $('.ingredientList >li').each(function () { 
+                            ingredientList.push( this.childNodes[0].nodeValue.trim()); 
+                              }); 
+                      $.ajax({
                                       type: "POST",
-                                      url: "filter.php",
-                              data: { "filter":data , ""},
+                                      url: "idea.php",
+                              data: { "filter":data , "ingredientList":ingredientList},
                               cache: false,
                               success: function(data) {
-                                console.log(data);
-                                    dataa= JSON.parse(data)
-                                $(".card-group").empty();
-                                for (let i = 0; i < dataa.length; i++) {
-                                  const recipe = dataa[i];
-                                  $(".card-group").append(`
-                   
-                                  <div class="col-md-3 cardCon">          
-                                                    <div class="card">
-                                                          <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
-                                                          <div class="card-body">
-                                                              <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
-                                                              <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
-                                                              <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
-                                                          </div>
-                                                      </div>
-
-                                  </div>
-                                                              `)
-                                  
-                                }
-                                      }
-                            
+                            console.log(data);
+                            let   recipes  = JSON.parse(data)  ;
                           
-                              ,
+                          console.log(recipes);
+                          $('.res').empty();
+                        $('.res').html('<h3><span class="resNumber">28</span>  recettes basées sur vos ingrédients <span class="ideaNumber"></span></h3>')
+                        $('.resNumber').html(recipes.length);
+                        for (let i = 0; i < recipes.length; i++) {
+                            const recipe = recipes[i];
+                       $(".res").append(`
+                            <div class="ideacard ">
+                             <div class="imageCon">
+                             <img class="recipeImage" src="../public/images/recipes/${recipe[0]['imgPath']}" alt="recipe Image" />
+                             </div>
+                                <div class="rightRecipe">
+                                <h3>${recipe[0]['name']}</h3> 
+                                <h4>les ingredient : </h4> 
+                                <p> ${recipe.slice(-1)} </p>
+                                <a href="./recipe?name=${recipe[0]["name"] }" class="btn btn-primary">voire la suite</a>
+
+
+                               
+                                <div class="timeRecipeCon">
+                                <img class="icon" src="../public/images/icons/time.png" alt="">
+                               
+                                <h3 class="timeRecipe">${
+                                    parseInt((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])) /60 )+' h '+ ((parseInt( recipe[0]['cookingTime']) + parseInt( recipe[0]['restTime']) + parseInt( recipe[0]['preparationTime'])  )%60)+' Min' }
+                                    </h3> 
+
+                                    
+                                </div>
+                                
+                                <span class="sperator">
+                                    </span>
+
+                                </div> 
+                                </div>`)
+                                    
+                        }
+                    
+                    
+                        },
                               error: function(xhr, status, error) {
                               console.error(xhr);
                               }
                               });
+                                      
+        }
+                        
+
 
 
 
