@@ -1,5 +1,7 @@
 <?php 
 
+require_once "../controllers/homeController.php";
+
 
 class GlobaleView{
 
@@ -192,26 +194,96 @@ class GlobaleView{
 
     }
 
-    public function home (){
+    public function head(){
+      ?>
+      <head>
 
+      <script src="../public/js/bootstrap.bundle.min.js"></script>
+
+          <link rel="stylesheet" type="text/css" href="../public/css/home.css">
+          <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+          <title>DZ cooks</title>
+      </head>
+      <?php
+        
+    }
+
+    public function profile($id){
+      ?>
+      <div class="profileCon">
+        <div class="btn-group saisons" role="group" aria-label="Basic outlined example">
+
+            <button type="button" class="saisonButton btn btn-outline-primary">Mes Recettes Preférées </button>     
+            <button type="button" class="saisonButton btn btn-outline-primary ">Mes Recettes Ajouter </button>     
+        </div>
+        <div class="card-group">
+          
+        </div>
+      </div>
+      <script src='../public/js/jQuery.js'></script>
+
+      <script>
+       
+       $(document).ready(function(){
+
+        $(".saisonButton").click(
+          function (event) {
+          console.log("/",$(event.target).text(),"/");
+          event.preventDefault();
+            $(".saisonButton").removeClass( "active" );
+        
+            $(event.target).addClass(" active");
+        if($(event.target).text().trim() == "Mes Recettes Ajouter"){
+
+          $(".card-group").empty();        
+        
+            $(".card-group").append(`
+           <?php 
+           $c = new homeController();
+           $r = $c->getAjouter($id);
+     
+           foreach ($r as $recipe) {
+            echo $this->card($recipe);
+            }
+            ?>
+           `)
+        }
+        else {
+          $(".card-group").empty();        
+          $(".card-group").append(`
+           <?php 
+           $c = new homeController();
+           $r = $c->getPrefer($id);
+     
+           foreach ($r as $recipe) {
+            echo $this->card($recipe);
+            }
+            ?>
+           `)
+
+        }
+
+      })
+      });          
+        </script>
+      <?php
+    }
+
+    public function home ($name=null , $id=null){
+
+      $this->head();
         ?>
-        <head>
-
-        <script src="../public/js/bootstrap.bundle.min.js"></script>
-
-            <link rel="stylesheet" type="text/css" href="../public/css/home.css">
-            <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-            <title>DZ cooks</title>
-        </head>
+      
         <body>
             
         <?php
-        $this->header();  
+        $this->header($name,$id);  
         $this->diaporama();
-        $this->contune('Entreés');
+        $this->contune('entrées');
         $this->contune('plats');
-        $this->contune('Desserts');
-        $this->contune('Les Boissons');
+        $this->contune('desserts');
+        $this->contune('boissons');
+        $this->addRecipe();
         $this->footer();
         ?>
 
@@ -221,6 +293,14 @@ class GlobaleView{
  
     }
 
+    public function addRecipe(){
+      ?>
+      <div class="nine">
+      <h1>  Vous pouvez aussez share avec nous Votre cuisine !!
+        <span> <a href="./addRecipePage">ajouter une Recette</a></span> </h1>
+      </div>
+      <?php
+    }
 
     public function diaporama(){
       ?>
@@ -234,7 +314,7 @@ class GlobaleView{
             foreach ($diapos as  $diapo) {
             
               ?>
-                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="10000">
+                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
                     <a href="<?php echo $diapo['path']?>"><img src="../public/images/diapo/<?php echo $diapo['imageName']?> "  class="d-block w-100 h-20" alt="...">
                       <div class="carousel-caption d-none d-md-block ">
                         <h5><?php echo $diapo['title']?> </h5>
@@ -281,7 +361,7 @@ class GlobaleView{
       <main>
          <div class="categorieHead">
            <h2 class="categorieTitle"><?php echo  $title ?></h2>
-           <a href="./categories?categorie=plats" class="btn btn-secondary"> voir tous</a>
+           <a href="./categories?categorie=<?php echo  $title ?>" class="btn btn-secondary"> voir tous</a>
         </div>
    
 
@@ -292,7 +372,7 @@ class GlobaleView{
                 
          <?php
                             $cntrl  = new HomeController(); 
-                            $recipes = $cntrl->getRecipes();
+                            $recipes = $cntrl->getRecipesBycategorie($title);
                             $fr = 0 ;
                             for ($i=0; $i < count($recipes) ; $i++) { 
                               
@@ -362,13 +442,23 @@ class GlobaleView{
          
    }
 
-    public function header(){
+    public function header($name = null,$id=null){
         ?>
 
       <header>
               <a href="./"><img class='logo' src='../public/images/logo.png'></a>  
                 <div class='Right-nav'>
-                    <span>Follow Us</span>
+                <?php if(isset($name)) { ?>
+                    <a href="<?php echo "./profile.php?id=$id"; ?>"> 
+                      <img class='icon profile' src="../public/images/icons/profile.png"/>
+                      <span> <?php  echo $name ?> </span> 
+                    </a>
+                    <?php  } else{
+                      ?>
+                      <a href="./loginPage">Connecté</a>
+                      <?php
+                    }
+                    ?>
                     <img class='icon' src="../public/images/icons/fb.png"/>
                     <img class='icon' src="../public/images/icons/twtr.png"/>
                     <img class='icon' src="../public/images/icons/insta.png"/>
@@ -412,10 +502,10 @@ class GlobaleView{
             <div class="navbar-links">
                 <a href="/news" target="_blank">News</a>
                 <a href="./recipeIdea" target="_blank">Recipe ideas</a>
-                <a href="https://in.linkedin.com/in/jonesvinothjoseph" target="_blank">Season</a>
-                <a href="https://codepen.io/jo_Geek/" target="_blank">Healthy</a>
-                <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">Ocassions</a>
-                <a href="./nutrition.php" target="_blank">Nutration</a>
+                <a href="./saison" target="_blank">Season</a>
+                <a href="./healthy" target="_blank">Healthy</a>
+                <a href="./party" target="_blank">Ocassions</a>
+                <a href="./nutrition" target="_blank">Nutration</a>
 
             </div>
             </div>

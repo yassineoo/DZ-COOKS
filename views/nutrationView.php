@@ -17,6 +17,11 @@ class NutrationView{
 <link rel="stylesheet" type="text/css" href= "../public/css/home.css">
 <link href="../public/css/bootstrap.min.css" rel="stylesheet">
 <script src='../public/js/jQuery.js'></script>
+<script src="../public/js/bootstrap.bundle.min.js"></script>         
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='../public/js/jQuery.js'></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  
 
 </head>
 <body>
@@ -36,8 +41,9 @@ class NutrationView{
         <?php
   
         $view->sidebar(4);
+        
 
-        $this -> IngredientForm();
+        $this -> acoordien();
    
     ?> 
     </main>
@@ -46,7 +52,47 @@ class NutrationView{
         <?php 
     }
 
+    public function acoordien(){
+
+        ?> 
+              <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Ajouter une ingredient !
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                 <?php $this->IngredientForm() ?> 
+
+              </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Editer le Percentage ! 
+                </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                     <?php $this->setPercentage() ?> 
+                </div>
+                </div>
+            </div>
+         
+
+        </div> 
+
+
+        <?php
+    }
+
+   
+
     public function IngredientForm(){
+        
      ?>
      
      
@@ -258,6 +304,15 @@ class NutrationView{
     <?php
 
     }
+    public function setPercentage(){
+        ?>
+        <form method = "POST"  action="./operations">
+               <input type="number" name="setPercentage" value="" class="form-control" >
+
+               <button type="sumbit" class="btn btn-outline-primary" style="margin:10px;">modifier</button>    
+        </form>
+        <?php
+    }
 
     public function IngredientsList(){
         ?>
@@ -274,7 +329,7 @@ class NutrationView{
                 
                 foreach ($ingredients as  $ingredient) {
                     ?>
-                    <button class="pobularIngredient" id="<?php echo $ingredient['id'] ?> "><?php echo $ingredient['name'] ?> </button>
+                    <button class="<?php  if( $ingredient['healthy'] < 51 )  echo "pobularIngredient";  else echo "helthyIngredient" ; ?> " id="<?php echo $ingredient['id'] ?> "><?php echo $ingredient['name'] ?> </button>
                     <?php
                 }
                 ?>
@@ -361,6 +416,9 @@ class NutrationView{
                             <tr>
                             <th>saison</th> 
                             <td>${info[0][0]['saison']}</td>
+                            </tr>
+                            <th>helthy</th> 
+                            <td>${info[0][0]['healthy']} %</td>
                             </tr>
                             `);
                             $(".vitamineListBody").empty();

@@ -21,14 +21,15 @@ class NutrationController {
 
     }
 
-    public function IngredientList(){
+    public function nutration($name=null,$id=null){
 
       $view = new NutrationView();
       $viewGlob = new GlobaleView();
       //$viewGlob-> head();
-      $viewGlob-> header();
+      
 
       $view->head();
+      $viewGlob-> header($name,$id);
       $view->IngredientsList();
 
   }
@@ -95,7 +96,10 @@ class NutrationController {
         $model = new NutrationModel();       
         return $model->getAllInfo($id);
       }
-   
+      public function setPercentage($value){
+        $model = new NutrationModel();       
+        return $model->setPercentage($value);
+      }
 
 }
 

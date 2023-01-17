@@ -1,5 +1,6 @@
 <?php 
 require_once "../controllers/nutrationController.php";
+require_once "../controllers/homeController.php";
 require_once "../views/globaleView.php";
 
 class RecipeView  {
@@ -85,23 +86,35 @@ class RecipeView  {
 
 
        </div> 
-       <div  class="ingredientsList">
-         <h3> liste des ingredient : </h3>
-        <ul>
-            <?php
-            $cntrl = new HomeController();
-            $list = $cntrl-> getIngredientList($recipe[0]['id']);
-            foreach ($list as  $ingred) {
-               ?>  <li><?php  
-               if ($ingred['quentity'] != 0)  echo $ingred['quentity']."  " ;
-               if ($ingred['mesure'] != "non précisé")  echo $ingred['mesure']."   ";
-               echo $ingred['name'] ?>  </li>
-            <?php } 
-            ?>
+       <div  class="ingredientsList stepCon">
+         <h3> Description : </h3>
+           <p>
+              <?php
+            
+              echo $recipe[0]['description'];
+           
+              ?>
 
-        </ul>
+            </p>
         
-        </div> 
+        </div>
+       <div  class="ingredientsList">
+            <h3> liste des ingredient : </h3>
+            <ul>
+                <?php
+                $cntrl = new HomeController();
+                $list = $cntrl-> getIngredientList($recipe[0]['id']);
+                foreach ($list as  $ingred) {
+                  ?>  <li><?php  
+                  if ($ingred['quentity'] != 0)  echo $ingred['quentity']."  " ;
+                  if ($ingred['mesure'] != "non précisé")  echo $ingred['mesure']."   ";
+                  echo $ingred['name'] ?>  </li>
+                <?php } 
+                ?>
+
+            </ul>
+        
+       </div> 
         <div  class="ingredientsList stepCon">
          <h3> liste des etapes : </h3>
         <ul>
@@ -116,7 +129,12 @@ class RecipeView  {
             ?>
 
         </ul>
-        
+        <div class="video">
+
+          <video width="600" height="320" src="<?php echo $recipe[0]['videoPath'] ?>" controls>
+            
+          </video>
+        </div>
         </div> 
         <div class="rate">
             <input type="radio" id="star5" name="rate" value="5" />
@@ -261,7 +279,7 @@ class RecipeView  {
                           <div class="form-check">
                             <input class="form-check-input" type="radio" value="Le printemps" name="saison" id="flexRadioDefault2d" >
                             <label class="form-check-label" for="flexRadioDefault2">
-                              le printemps
+                              Le printemps
                             </label>
                           </div>
                           <div class="form-check">
@@ -271,7 +289,7 @@ class RecipeView  {
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" value="" name="saison" id="flexRadioDefault2l" >
+                            <input class="form-check-input" type="radio" value="L'automne" name="saison" id="flexRadioDefault2l" >
                             <label class="form-check-label" for="flexRadioDefault2">
                             L'automne
                             </label>
@@ -330,96 +348,285 @@ class RecipeView  {
         <?php
     }
 
-    public function categorie($recipes){
+    public function categoriePage($recipes){
       ?>
 
-    <body>
+      <body>
 
 
-        <?php $this->filterForm(); ?>
-        <div class="card-group">
+        <?php 
+        $this->filterForm(); 
+        $this->recipeCon($recipes);
+        ?>
+        
 
-           <?php 
-           foreach ($recipes as  $recipe) {
+          <script src="../public/js/range.js">
+
+            </script>
+
+              <script>
+              $(document).ready(function(){
+
+                $("#filterButton").click((e) => {
+                  e.preventDefault();
+                  console.log( $("input[name='saison']:checked").val());
+                  data = { 
+                    saison: $("input[name='saison']:checked").val(),
+                    star :[$('#fromInputStar').val(),$('#toInputStar').val()] ,
+                    calorie :[$('#fromInputCalories').val(),$('#toInputCalories').val()] ,
+                    cuisson :[$('#fromInputcuisson').val(),$('#toInputcuisson').val()] ,
+                    totale :[$('#fromInputTotale').val(),$('#toInputTotale').val()] ,
+                    preparation :[$('#fromInput').val(),$('#toInput').val()] ,
+                    sortBy:$("#sortBy").val()
+                  }
+                  console.log("****************");
+                  console.log(data);
+                  $.ajax({
+                                              type: "POST",
+                                              url: "filter.php",
+                                      data: { "filter":data},
+                                      cache: false,
+                                      success: function(data) {
+                                        console.log(data);
+                                            dataa= JSON.parse(data)
+                                        $(".card-group").empty();
+                                        for (let i = 0; i < dataa.length; i++) {
+                                          const recipe = dataa[i];
+                                          $(".card-group").append(`
+                          
+                                          <div class="col-md-3 cardCon">          
+                                                            <div class="card">
+                                                                  <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
+                                                                  <div class="card-body">
+                                                                      <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
+                                                                      <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
+                                                                      <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
+                                                                  </div>
+                                                              </div>
+
+                                          </div>
+                                                                      `)
+                                          
+                                        }
+                                              }
+                                    
+                                  
+                                      ,
+                                      error: function(xhr, status, error) {
+                                      console.error(xhr);
+                                      }
+                                      });
+
+
+
+                })
+                
+              });  
               
-              $viewGlob = new GlobaleView();
-              $viewGlob->card($recipe);
-            # code...
-           }
-           ?>
+            </script>
           
-        </div> 
 
+    </body>
 
-<script src="../public/js/range.js">
+      <?php
 
-    </script>
+    }
 
-      <script>
-      $(document).ready(function(){
+    public function saisonPage($recipes){
+         ?>
+      <body>
+      
+      <div class="btn-group saisons" role="group" aria-label="Basic outlined example">
+        <?php 
+        $cntrl = new NutrationController();
+        $sasions = $cntrl->getSeasons();
+        $frst=0;
+   
+       
+       for ($i=0; $i <count($sasions) ; $i++) { 
+   
+          ?>
 
-        $("#filterButton").click((e) => {
-          e.preventDefault();
-          console.log( $("input[name='saison']:checked").val());
-          data = { 
-            saison: $("input[name='saison']:checked").val(),
-            star :[$('#fromInputStar').val(),$('#toInputStar').val()] ,
-            calorie :[$('#fromInputCalories').val(),$('#toInputCalories').val()] ,
-            cuisson :[$('#fromInputcuisson').val(),$('#toInputcuisson').val()] ,
-            totale :[$('#fromInputTotale').val(),$('#toInputTotale').val()] ,
-            preparation :[$('#fromInput').val(),$('#toInput').val()] ,
-            sortBy:$("#sortBy").val()
-          }
-          console.log("****************");
-          console.log(data);
-          $.ajax({
+        <button type="button" class="saisonButton btn btn-outline-primary <?php if($i==0) echo " active " ?>"><?php  echo $sasions[$i]["season"]; ?></button>
+
+          <?php
+          
+          
+        }
+        ?> 
+    </div>
+      <div class="card-group">
+
+      <?php 
+      foreach ($recipes as  $recipe) {
+        
+        $viewGlob = new GlobaleView();
+        $viewGlob->card($recipe);
+      # code...
+      }
+      ?>
+
+      </div> 
+      
+  <script>
+       
+       $(document).ready(function(){
+        $(".saisonButton").click(function (event) {
+          console.log($(event.target).text());
+          event.preventDefault();
+            $(".saisonButton").removeClass( "active" );
+           $(event.target).addClass(" active");
+           $.ajax({
                                       type: "POST",
                                       url: "filter.php",
-                              data: { "filter":data},
+                              data: { "saison":$(event.target).text() },
                               cache: false,
-                              success: function(data) {
-                                console.log(data);
-                                    dataa= JSON.parse(data)
-                                $(".card-group").empty();
-                                for (let i = 0; i < dataa.length; i++) {
-                                  const recipe = dataa[i];
-                                  $(".card-group").append(`
-                   
-                                  <div class="col-md-3 cardCon">          
-                                                    <div class="card">
-                                                          <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
-                                                          <div class="card-body">
-                                                              <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
-                                                              <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
-                                                              <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
-                                                          </div>
-                                                      </div>
+                              success:  function(data) {
+                                        console.log("------------");
+                                        console.log(data);
+                                        console.log("-------/////-----");
 
-                                  </div>
-                                                              `)
-                                  
-                                }
-                                      }
-                            
+                                            dataa= JSON.parse(data)
+                                        $(".card-group").empty();
+                                        for (let i = 0; i < dataa.length; i++) {
+                                          const recipe = dataa[i];
+                                          $(".card-group").append(`
                           
-                              ,
+                                          <div class="col-md-3 cardCon">          
+                                                            <div class="card">
+                                                                  <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
+                                                                  <div class="card-body">
+                                                                      <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
+                                                                      <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
+                                                                      <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
+                                                                  </div>
+                                                              </div>
+
+                                          </div>
+                                                                      `)
+                                          
+                                        }
+                                              }
+                                    
+                                  
+                                      ,
                               error: function(xhr, status, error) {
                               console.error(xhr);
                               }
                               });
 
-
-
         })
-        
-      });  
-      
-    </script>
-
-</body>
-
+       });
+ </script>
+      </body>
       <?php
+    }
 
+
+    public function partyPage($recipes){
+      ?>
+   <body>
+   
+   <div class="btn-group saisons" role="group" aria-label="Basic outlined example">
+     <?php 
+     $cntrl = new HomeController();
+     $sasions = $cntrl->getParty();
+     $frst=0;
+
+    
+    for ($i=0; $i <count($sasions) ; $i++) { 
+
+       ?>
+
+     <button type="button" class="saisonButton btn btn-outline-primary <?php if($i==0) echo " active " ?>"><?php  echo $sasions[$i]["name"]; ?></button>
+
+       <?php
+       
+       
+     }
+     ?> 
+ </div>
+   <div class="card-group">
+
+   <?php 
+   foreach ($recipes as  $recipe) {
+     
+     $viewGlob = new GlobaleView();
+     $viewGlob->card($recipe);
+   # code...
+   }
+   ?>
+
+   </div> 
+   
+<script>
+    
+    $(document).ready(function(){
+     $(".saisonButton").click(function (event) {
+       console.log($(event.target).text());
+       event.preventDefault();
+         $(".saisonButton").removeClass( "active" );
+        $(event.target).addClass(" active");
+        $.ajax({
+                                   type: "POST",
+                                   url: "filter.php",
+                           data: { "party":$(event.target).text() },
+                           cache: false,
+                           success:  function(data) {
+                                     console.log("------------");
+                                     console.log(data);
+                                     console.log("-------/////-----");
+
+                                         dataa= JSON.parse(data)
+                                     $(".card-group").empty();
+                                     for (let i = 0; i < dataa.length; i++) {
+                                       const recipe = dataa[i];
+                                       $(".card-group").append(`
+                       
+                                       <div class="col-md-3 cardCon">          
+                                                         <div class="card">
+                                                               <img src="../public/images/recipes/${recipe["imgPath"]}" class="d-block w-100" alt="...">
+                                                               <div class="card-body">
+                                                                   <h5 class="card-title">${ recipe["name"].length > 10 ? recipe["name"].substring(0,19): recipe["name"]} </h5>
+                                                                   <p class="card-text"> ${ recipe["description"].length > 10 ? recipe["description"].substring(0,45)+"...": recipe["description"]} </p>
+                                                                   <a href="./recipe?name=${recipe["name"] }" class="btn btn-primary">voire la suite</a>
+                                                               </div>
+                                                           </div>
+
+                                       </div>
+                                                                   `)
+                                       
+                                     }
+                                           }
+                                 
+                               
+                                   ,
+                           error: function(xhr, status, error) {
+                           console.error(xhr);
+                           }
+                           });
+
+     })
+    });
+</script>
+   </body>
+   <?php
+ }
+    public function recipeCon($recipes) {
+      ?>
+         <div class="card-group">
+
+          <?php 
+          foreach ($recipes as  $recipe) {
+            
+            $viewGlob = new GlobaleView();
+            $viewGlob->card($recipe);
+          # code...
+          }
+          ?>
+
+          </div> 
+      <?php
     }
 
     public function DoubleRange($name,$min,$max){

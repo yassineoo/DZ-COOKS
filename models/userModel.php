@@ -104,6 +104,21 @@ class UserModel{
        
             
         
+        $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return 1;
+    }
+    public function delete($id){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        $sql='DELETE FROM user  WHERE id=?;';
+
+            $args=[$id];
+       
+            
+        
         $user = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
 

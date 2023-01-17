@@ -5,12 +5,17 @@ require_once "../controllers/homeController.php" ;
 
 
 session_start();
+$cntrl = new HomeController();
+if(isset($_SESSION['username']) ){
 
-if(!isset($_SESSION['username'])){
-    header("Location:./loginPage.php");
+    $cntrl -> home($_SESSION['username'],$_SESSION['id']);
+   
+} elseif(isset($_SESSION['admin'])) {
+    $cntrl -> home($_SESSION['admin'],$_SESSION['id']);
+
 }
 else {
-    $cntrl = new HomeController();
+  //  echo "koko";
     $cntrl -> home();
 
 }

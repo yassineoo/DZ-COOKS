@@ -13,6 +13,15 @@ class UserController {
         $view->userLoginSign();
         
   }
+  public function profile($id) {
+    $view = new GlobaleView();
+    $view->head();
+    $view->header();
+    $view->profile($id);
+    $view->footer();
+
+    
+}
      public function indexAdmin($error=null) {
     $view = new GlobaleView();
     $view->AdminLogin();
@@ -58,7 +67,8 @@ class UserController {
              
              
               if ($admin) {
-                $_SESSION["admin"] = $email;  
+                $_SESSION["admin"] = $res[0][1]." ".$res[0][2];  
+                $_SESSION["id"] = $res[0][0];
             }
             else {
                 $_SESSION["username"] = $res[0][1]." ".$res[0][2];  

@@ -117,8 +117,8 @@ $(document).ready(function(){
                                             {
                                                 ?>
                 <button class="pobularIngredient" type="button" value="almond milk">
-                                   + <span>
-                                    <strong><?php echo $ingredient['name']  ?> </strong>
+                + <span>
+                                    <strong ><?php echo $ingredient['name']  ?> </strong>
                                     <span> 
                 </button>
                             <?php 
@@ -210,8 +210,13 @@ $(document).ready(function(){
 
     $(".pobularIngredient").click((event
             ) => { 
+       
+
                 event.preventDefault();
-                addToList(event.target.childNodes[0].nodeValue); 
+                if (event.target.childNodes.length ==2) {
+                addToList(event.target.childNodes[1].outerText);
+                    
+                }else addToList(event.target.childNodes[0].nodeValue); 
     });
             
     $('#listCounter').change(function(){

@@ -39,7 +39,7 @@ class recipeFormView{
     
 
         <div id="recipesFormRoot">
-             <form class="recipes-form addform" enctype="multipart/form-data" method="POST" action="./addRecipe.php" >
+             <form class="recipes-form addform" enctype="multipart/form-data" method="POST" action="../dz-cooks/addRecipe.php" >
                
                 <div class="nine">
                 <h1>Ajouter une recette<span>Les information generale </span></h1>
@@ -136,37 +136,55 @@ class recipeFormView{
                    
                             
                            <select class="form-select form-select-sm" name="categorie">
-                           <?php
-                            $cntrl  = new HomeController(); 
-                            $party = $cntrl->getCategories();
+                            <?php
+                                $cntrl  = new HomeController(); 
+                                $categories = $cntrl->getCategories();
 
-                            foreach($party as $part)
-                            {
+                                foreach($categories as $cat)
+                                {
 
-                              ?>
-                                <option><?php echo $part['name'] ?></option>
-                                
-                                <?php  } ?>
+                                ?>
+                                    <option><?php echo $cat['name'] ?></option>
+                                    
+                                    <?php  } ?>
 
                             </select >
 
                             <select class="form-select form-select-sm" name="party">
-                            <?php
-                            $cntrl  = new HomeController(); 
-                            $party = $cntrl->getParty();
+                                <?php
+                                $cntrl  = new HomeController(); 
+                                $party = $cntrl->getParty();
 
-                            foreach($party as $part)
-                            {
+                                foreach($party as $part)
+                                {
 
-                              ?>
-                                <option><?php echo $part['name'] ?></option>
-                                
-                                <?php  } ?>
+                                ?>
+                                    <option><?php echo $part['name'] ?></option>
+                                    
+                                    <?php  } ?>
+                            </select>
+                            <select class="form-select form-select-sm" name="saison">
+                                <?php
+                                $cntrl  = new NutrationController(); 
+                                $party = $cntrl->getSeasons();
+
+                                foreach($party as $part)
+                                {
+
+                                ?>
+                                    <option><?php echo $part['season'] ?></option>
+                                    
+                                    <?php  } ?>
+                            </select>
+                            <select class="form-select form-select-sm" name="difficulty">
+                                    <option value="déficile">déficile</option>
+                                    <option value="moyenne">moyenne</option>
+                                    <option value="facile">facile</option>
                             </select>
                   <h3> Add an Image</h3>
-                  <input type="file" name="ImageUpload" value="">
+                  <input type="file" name="ImageUpload" value="" class="form-control" >
                   <h3> Add a video</h3>
-                  <input type="file" name="VIdeoUpload" value="">
+                  <input type="file" name="VideoUpload" value="" class="form-control">
 
              <!--
                     <div class="recipes-form__tooltip">This will be your recipe's introduction! We love a good story behind a dish, along with helpful tips and variations.

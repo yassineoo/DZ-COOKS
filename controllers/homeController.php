@@ -14,9 +14,9 @@ class HomeController {
 
     private $model;
 
-    public function home($error=null) {
+    public function home($name=null , $id=null) {
         $view = new GlobaleView();
-        $view->home();
+        $view->home($name,$id);
         
   }
   public function addRecipePage($error=null) {
@@ -27,9 +27,9 @@ class HomeController {
     
 }
 
-public function  addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer){
+public function  addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff){
   $model = new RecipeModel();
-  $model -> addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer);
+  $model -> addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff);
 }
 
 public function recipeIdea() {
@@ -57,6 +57,16 @@ public function recipeIdea() {
     return  $model->isPrefer($idRecipe , $idUser);
 
   }
+  public function getPrefer($idUser) {
+    $model = new RecipeModel();
+    return  $model->getPrefer($idUser);
+
+  }
+  public function getAjouter($idUser) {
+    $model = new RecipeModel();
+    return  $model->getAjouter($idUser);
+
+  }
   public function isNoted($idRecipe , $idUser) {
     $model = new RecipeModel();
     return  $model->isNoted($idRecipe , $idUser);
@@ -72,9 +82,9 @@ public function recipeIdea() {
     return  $model->getParty();
 
   }
-  public function getRecipes($id=null) {
+  public function getRecipes($id=null,$all=null) {
     $model = new RecipeModel();
-    return  $model->getRecipes($id);
+    return  $model->getRecipes($id,$all);
 
   }
 
@@ -133,18 +143,58 @@ public function recipeIdea() {
   
   
   }
-  public function categoriePage($name){
+
+  public function getRecipesBycategorie($name){
+    $model = new RecipeModel();
+   return $recipes = $model ->getRecipesBycategorie($name); 
+  }
+  public function categoriePage($name,$userName=null,$id=null){
+    $view = new RecipeView();
+    $viewGlob = new GlobaleView();
+    $recipes = $this->getRecipesBycategorie($name);
+   // echo count($recipes);
+    $view->head();
+    $viewGlob->header($userName,$id);
+    $view->categoriePage($recipes);
+    $viewGlob->footer();
+  }
+  public function saisonPage(){
     $view = new RecipeView();
     $viewGlob = new GlobaleView();
     $model = new RecipeModel();
-    $recipes = $model ->getRecipesBycategorie($name); 
+    $recipes = $model ->getRecipes(); 
    // echo count($recipes);
     $view->head();
     $viewGlob->header();
-    $view->categorie($recipes);
+    $view->SaisonPage($recipes);
     $viewGlob->footer();
   
+  }
+  public function partyPage($name=null,$id=null){
+    $view = new RecipeView();
+    $viewGlob = new GlobaleView();
+    $model = new RecipeModel();
+    $recipes = $model ->getRecipes(); 
+   // echo count($recipes);
+    $view->head();
+    $viewGlob->header($name,$id);
+    $view->partyPage($recipes);
+    $viewGlob->footer();
   
+  }
+  public function saisonFilter($saison){
+    $model = new RecipeModel();
+    if( $saison =="tous les  saisons") {
+      return $model ->getRecipes();
+    }
+    return $recipes = $model ->saisonFilter($saison); 
+  }
+  public function partyFilter($saison){
+    $model = new RecipeModel();
+    if( $saison =="generale") {
+      return $model ->getRecipes();
+    }
+    return $recipes = $model ->partyFilter($saison); 
   }
 
 

@@ -12,7 +12,18 @@
  
 // POST Data
 $cntrl = new homeController();
-$res = $cntrl -> filtrage($_POST['filter']);
+if (isset($_POST['filter'])) {
+    # code...
+    $res = $cntrl -> filtrage($_POST['filter']);
+}
+elseif (isset($_POST['saison'])){
+    $res = $cntrl -> saisonFilter($_POST['saison']);
+
+}
+elseif (isset($_POST['party'])){
+    $res = $cntrl -> partyFilter($_POST['party']);
+
+}
 
 
 echo json_encode($res);

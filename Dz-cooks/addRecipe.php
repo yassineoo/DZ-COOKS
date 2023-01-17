@@ -56,9 +56,10 @@ if ($uploadOk == 0) {
     $PrepTime = intval( $_POST["PrepTimeH"]) * 60 + intval(  $_POST["PrepTimeM"]) ;
     $CookTime = intval( $_POST["CookTimeH"]) * 60 + intval(  $_POST["CookTimeM"]) ;
     $RestTime = intval( $_POST["RestTimeH"]) * 60 + intval(  $_POST["RestTimeM"]) ;
-    
+    $saison = $_POST['saison'];
     $optionParty = $_POST['party'];  
     $optionCat = $_POST['categorie'];  
+    $optiondiff = $_POST['categorie'];  
     $writer = $_SESSION["username"]; 
     $videoPath = null;
 
@@ -84,7 +85,7 @@ if ($uploadOk == 0) {
     
     $homeController = new HomeController();
     
-    $homeController->addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer);
+    $homeController->addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff);
   
     header("./".$name) ;
     exit();

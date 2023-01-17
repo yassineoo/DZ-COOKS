@@ -131,3 +131,24 @@ header {
 a {
      color: #f3783d !important;
 }
+.accordion {
+     overflow-anchor: none;
+     width: -webkit-fill-available !important;
+}
+
+.accordion-button {
+     font-size: 18px !important;
+}
+
+a.active {
+     color: #fff;
+     background-color: #f3783d !important;
+}
+
+.accordion-button:not(.collapsed) {
+     /* color: var(--bs-accordion-active-color); */
+     background-color: #fe9a47 !important;
+     color: white !important;
+     box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0
+          var(--bs-accordion-border-color);
+}

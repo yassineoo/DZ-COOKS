@@ -217,6 +217,21 @@ class NutrationModel{
         return $Percentage->fetchAll();
     }
 
+
+    public function setPercentage($value){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        
+            $sql= "UPDATE `settings` set ideaPercentage=?   ";
+            $args=[$value];
+      
+         $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        
+    }
+
   
 
    public function ideaSql($ingredList){

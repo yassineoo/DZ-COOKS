@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once "../controllers/nutrationController.php" ;
+    require_once "../controllers/dashboardController.php" ;
 
 
 
@@ -8,8 +8,8 @@
         header("Location:./loginPage.php");
     }
     else {
-        $cntrl = new NutrationController();
-        $cntrl ->IngredientForm();
+        $cntrl = new DashboardController();
+        $cntrl ->nutration();
     
     }
 

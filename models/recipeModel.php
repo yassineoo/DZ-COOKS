@@ -5,7 +5,7 @@ include_once "dbConnection.php";
 class RecipeModel{
 
   
-    public function getRecipes($id=null){
+    public function getRecipes($id=null,$all=null){
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
@@ -13,8 +13,12 @@ class RecipeModel{
             $sql= "SELECT recipe.id,imgPath,cookingTime,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.id=? ;";
             $args=[$id];
         }
-        else {
+        elseif(isset($all)) {
             $sql="SELECT * FROM recipe";
+            $args=[];
+        }
+        else {
+            $sql="SELECT * FROM recipe where approved=1";
             $args=[];
         }
         $recipies = $dbConn->request($conn,$sql,$args);
@@ -28,7 +32,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($name)) {
-            $sql= "SELECT recipe.id,imgPath,serves,cookingTime,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.name=? ;";
+            $sql= "SELECT recipe.id,imgPath,serves,videoPath,cookingTime,restTime,preparationTime,description,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.name=? ;";
             $args=[$name];
         }
         $recipies = $dbConn->request($conn,$sql,$args);
@@ -50,6 +54,36 @@ class RecipeModel{
 
         return $recipies->fetchAll();
     }
+    public function saisonFilter($name){
+      //  $name=str_replace("'","\\'",$name);
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        if (isset($name)) {
+            $sql= 'SELECT * FROM `recipe` where saison="'.$name.'"';;
+            $args=[];
+        }
+      $recipies = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+       // echo $sql;
+        return $recipies->fetchAll();
+    }
+    public function partyFilter($name){
+        //  $name=str_replace("'","\\'",$name);
+          $dbConn = new Dbconnection();
+          $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+  
+          if (isset($name)) {
+              $sql= 'SELECT * FROM `recipe` where party="'.$name.'"';;
+              $args=[];
+          }
+        $recipies = $dbConn->request($conn,$sql,$args);
+          $dbConn ->deconnexion($conn);
+         // echo $sql;
+          return $recipies->fetchAll();
+      }
+  
+
 
     public function getCategories(){
         $dbConn = new Dbconnection();
@@ -139,12 +173,25 @@ class RecipeModel{
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
-        $sql='UPDATE `recipe` SET aprroved=1 WHERE id=?;';
+        $sql='UPDATE `recipe` SET approved=1 WHERE id=?;';
 
             $args=[$id];
        
             
         
+        $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return 1;
+    }
+
+    public function delete($id){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        $sql='DELETE FROM `recipe`  WHERE id=?;';
+
+            $args=[$id];        
         $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
 
@@ -214,7 +261,7 @@ class RecipeModel{
 
 
 
-    public function getprefer($idUser) {
+    public function getPrefer($idUser) {
 
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
@@ -222,14 +269,34 @@ class RecipeModel{
         $sql= " SELECT *
         FROM  recipe join prefer ON recipe.id =prefer.idRecipe
         WHERE idUser=?";
-            $args=[$idRecipe];
+            $args=[$idUser];
        
             
         
-        $user = $dbConn->request($conn,$sql,$args);
+        $r = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
+        return $r->fetchAll();
 
-        return 1;
+
+    }
+
+    public function getAjouter($id) {
+
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+
+            
+        $sql= " SELECT FirstName FROM `user`  WHERE id = ? ";
+        $args=[$id ];
+       $name  = $dbConn->request($conn,$sql,$args)->fetchAll()[0][0];
+        
+        $sql= " SELECT * FROM  recipe  WHERE writer='$name'";
+            $args=[];
+               
+        $r = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+         return $r->fetchAll();
 
 
     }
@@ -299,13 +366,13 @@ class RecipeModel{
 
 
 
-    public function addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingreds,$steps ,$imagePath,$videoPath, $writer){
+    public function addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingreds,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff){
 
 
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
-        $sql = "INSERT INTO `recipe` (`id`, `name`, `description`, `serves`, `preparationTime`, `restTime`, `categorie`, `cookingTime`, `imgPath`, `videoPath`, `party`, `writer`) VALUES (NULL, ?, ?,?,?, ?,?,? ,?,?,?,?);";
-        $args=[$name,$description,$serves,$PrepTime,$RestTime,$optionCat,$CookTime,$imagePath,$videoPath, $optionParty , $writer];
+        $sql = "INSERT INTO `recipe` (`id`, `name`, `description`, `serves`, `preparationTime`, `restTime`, `categorie`, `cookingTime`, `imgPath`, `videoPath`, `party`, `writer`,`saison`,`difficulty`) VALUES (NULL, ?, ?,?,?, ?,?,? ,?,?,?,?,?,?);";
+        $args=[$name,$description,$serves,$PrepTime,$RestTime,$optionCat,$CookTime,$imagePath,$videoPath, $optionParty , $writer,$saison,$optiondiff];
         $dbConn->request($conn,$sql,$args);
         
         
@@ -349,8 +416,9 @@ class RecipeModel{
        
         $args=[];
         $sql= "select * from  (SELECT * from $recipeSql as input  INNER join (SELECT id as idR,AVG(note) as NoteF FROM `recipe` inner join `noter` on recipe.id = noter.idRecipe GROUP By idR)  as res on  input.id = res.idR ) as res2  INNER join ( SELECT idRecipe,SUM(calorie) as calorieF From `makein` INNER JOIN `ingredient` on makein.idingred = ingredient.id  GROUP By idRecipe) as res3  on res2.id = res3.idRecipe  where ";
-        if("1l" == $filter['saison']) {
-           $sql=  $sql."saison=$saison";
+        $ss = $filter['saison'];
+        if("1" != $ss) {
+           $sql=  $sql.'saison="'.$ss.'" AND ' ;
         }
         $MIN =$filter['cuisson'][0];
         $MAX =$filter['cuisson'][1];
@@ -371,16 +439,17 @@ class RecipeModel{
         $sql=  $sql. " calorieF  BETWEEN $MIN AND $MAX  ";
         if ( $filter['sortBy'] == "NC") $sql=  $sql." ORDER BY calorieF";
         if ( $filter['sortBy'] == "TP") $sql=  $sql." ORDER BY preparationTime";
-        if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY preparationTime + cookingTime";
-        if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY cookingTime";
+        if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY (preparationTime + cookingTime)";
+        if ( $filter['sortBy'] == "TC") $sql=  $sql." ORDER BY cookingTime";
         if ( $filter['sortBy'] == "NT") $sql=  $sql." ORDER BY NoteF DESC";
 
        
        
             
-        
+        //echo $sql;
         $res = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
+      //  echo $res->fetchAll()[0][0];
         return  $res ->fetchAll();
 
     }
