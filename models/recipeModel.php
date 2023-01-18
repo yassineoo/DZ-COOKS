@@ -279,6 +279,24 @@ class RecipeModel{
 
 
     }
+    public function getNoted($idUser) {
+
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        $sql= " SELECT *
+        FROM  recipe join noter ON recipe.id =noter.idRecipe
+        WHERE idUser=?";
+            $args=[$idUser];
+       
+            
+        
+        $r = $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+        return $r->fetchAll();
+
+
+    }
 
     public function getAjouter($id) {
 

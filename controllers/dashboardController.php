@@ -1,6 +1,8 @@
 <?php 
 require_once "../views/adminView.php";
 require_once "../models/userModel.php" ;
+require_once "../models/newsModel.php" ;
+require_once "../models/diapoModel.php" ;
 
 
 class DashboardController {
@@ -41,6 +43,13 @@ public function diapos($error=null) {
 
   
 }
+public function news($error=null) {
+  $view = new adminView();
+  $view->head();
+  $view->navbar();
+  $view->main(6);
+
+}
 
 public function nutration($error=null) {
   $view = new adminView();
@@ -54,10 +63,18 @@ public function getDiapos() {
   $model = new DiapoModel();
   return $model->getDiapos();
   }
+  public function getnews() {
+    $model = new NewsModel();
+    return $model->getnews();
+    }
   public function  addDiapos($imageName,$title,$path,$type) {
     $model = new DiapoModel();
     return $model-> addDiapos($imageName,$title,$path,$type);
     }
+ public function  addNews($imageName,$title,$content,$videoPath=null,$writer) {
+      $model = new NewsModel();
+      return $model->addNews($imageName,$title,$content,$videoPath,$writer);
+      }
  
 
   public function getUsers($id=null) {

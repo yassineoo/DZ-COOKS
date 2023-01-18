@@ -7,6 +7,7 @@ require_once "../views/recipeIdeaView.php";
 require_once "../models/userModel.php" ;
 require_once "../models/recipeModel.php" ;
 require_once "../models/diapoModel.php" ;
+require_once "../models/newsModel.php" ;
 
 
 class HomeController {
@@ -32,12 +33,12 @@ public function  addRecipe($name,$description,$serves,$PrepTime,$CookTime, $Rest
   $model -> addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff);
 }
 
-public function recipeIdea() {
+public function recipeIdea($name=null,$id=null) {
   $view = new RecipeIdeaView();
   $viewGlob = new GlobaleView();
 
   $view->head();
-  $viewGlob->header();
+  $viewGlob->header($name,$id);
   
   $view->index();
   $viewGlob->footer();
@@ -60,6 +61,12 @@ public function recipeIdea() {
   public function getPrefer($idUser) {
     $model = new RecipeModel();
     return  $model->getPrefer($idUser);
+
+  }
+  public function getNoted($idUser) {
+    $model = new RecipeModel();
+  
+   return  $model->getNoted($idUser);
 
   }
   public function getAjouter($idUser) {
@@ -130,15 +137,36 @@ public function recipeIdea() {
   }
  
 
-  public function recipe($name,$id){
+  public function news($name,$userName=null,$id=null){
+    $view = new RecipeView();
+    $viewGlob = new GlobaleView();
+    $model = new NewsModel();
+    $new = $model ->getNewsByname($name); 
+
+    $view->head();
+    $viewGlob->header($userName,$id);
+    $view -> news($new);
+
+    $viewGlob->footer();
+  
+  }
+
+  public function recipe($name,$userName=null,$id=null){
     $view = new RecipeView();
     $viewGlob = new GlobaleView();
     $model = new RecipeModel();
     $recipe = $model ->getRecipeByname($name); 
 
     $view->head();
-    $viewGlob->header();
-    $view->index($recipe ,$this->isPrefer( $recipe[0][0] ,$id ),$this->isNoted( $recipe[0][0] ,$id ));
+    $viewGlob->header($userName,$id);
+    if (isset($id)) {
+      $view->index($recipe ,$this->isPrefer( $recipe[0][0] ,$id ),$this->isNoted( $recipe[0][0] ,$id ));
+    }
+    else {
+      $view->index($recipe);
+
+    }
+
     $viewGlob->footer();
   
   
@@ -158,15 +186,26 @@ public function recipeIdea() {
     $view->categoriePage($recipes);
     $viewGlob->footer();
   }
-  public function saisonPage(){
+  public function saisonPage($name=null,$id=null){
     $view = new RecipeView();
     $viewGlob = new GlobaleView();
     $model = new RecipeModel();
     $recipes = $model ->getRecipes(); 
    // echo count($recipes);
     $view->head();
-    $viewGlob->header();
+    $viewGlob->header($name,$id);
     $view->SaisonPage($recipes);
+    $viewGlob->footer();
+  
+  }
+  public function newsPage($name=null,$id=null){
+    $view = new RecipeView();
+    $viewGlob = new GlobaleView();
+    $model = new newsModel();
+    $news = $model ->getNews(); 
+    $view->head();
+    $viewGlob->header($name,$id);
+    $view->newsPage($news);
     $viewGlob->footer();
   
   }

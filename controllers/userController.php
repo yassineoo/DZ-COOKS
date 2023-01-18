@@ -13,10 +13,10 @@ class UserController {
         $view->userLoginSign();
         
   }
-  public function profile($id) {
+  public function profile($id,$name=null) {
     $view = new GlobaleView();
     $view->head();
-    $view->header();
+    $view->header($name,$id);
     $view->profile($id);
     $view->footer();
 

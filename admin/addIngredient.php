@@ -40,6 +40,6 @@ $cntrl  = new NutrationController();
 
 $cntrl->addIngredeient($name ,$calories ,$season ,$categorie, $vitamines,$mineraux , $information);
 
-
+header("loaction:./nutrationPage");
 
 ?>

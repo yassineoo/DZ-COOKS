@@ -9,7 +9,7 @@ session_start();
 $cntrl = new UserController();
 if (isset($_GET['id'] ) && isset($_SESSION['id'])){
     if ($_SESSION['id'] == $_GET['id'])
-     $cntrl -> profile($_SESSION['id']);
+     $cntrl -> profile($_SESSION['id'],$_SESSION['username']);
      exit();
 }
     

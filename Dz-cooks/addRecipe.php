@@ -36,7 +36,7 @@ if ($_FILES["ImageUpload"]["size"] > 1000000) {
 }
 
 // Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "webp" 
 && $imageFileType != "gif" ) {
   echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
   $uploadOk = 0;
@@ -59,7 +59,7 @@ if ($uploadOk == 0) {
     $saison = $_POST['saison'];
     $optionParty = $_POST['party'];  
     $optionCat = $_POST['categorie'];  
-    $optiondiff = $_POST['categorie'];  
+    $optiondiff = $_POST['difficulty'];  
     $writer = $_SESSION["username"]; 
     $videoPath = null;
 
@@ -87,7 +87,7 @@ if ($uploadOk == 0) {
     
     $homeController->addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff);
   
-    header("./".$name) ;
+    header("location:./recipe?name=".$name) ;
     exit();
     
   } else {

@@ -205,6 +205,55 @@ class AdminView {
     
             <?php
         }
+        public function NewsAcoordien(){
+
+            ?> 
+                  <div class="accordion" id="accordionExample">
+                <div class="acc+ordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Ajouter une News !
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <form class="form-controle addform" enctype="multipart/form-data" method="POST" action="./addNews.php">
+                            <div class="nine">
+                                        <h1>Ajouter une News<span> </span></h1>
+                            </div>
+                            <label for="title">title</label>
+                            <input class="form-control" type="text" name="title" />  
+                            <label for="title">content</label>
+                            <textarea rows="5" class="form-control" type="text" name="text" ></textarea>  
+                         
+                            <label for="title">choisir une image</label>
+                            <input class="form-control" type="file" name="ImageUpload" />
+                         
+                            <button type="submit" class="submitFinale btn btn-primary " name="addNews"> submit </button>
+                     </form>
+    
+                  </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                   controller les news ! 
+                    </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse " aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                         <?php $this->newsTable() ?> 
+                    </div>
+                    </div>
+                </div>
+             
+    
+            </div> 
+    
+    
+            <?php
+        }
 
         public function recipeTable(){
 
@@ -253,6 +302,60 @@ class AdminView {
                                             <td><form action='operations.php' method="POST" > 
                                                 <input hidden value =<?php echo $recipe['id']?> name='id'/>
                                                 <button type="submit" name='deleteRecipe' class="btn btn-primary"  >Delete</button></form></td>
+                                        </tr>
+                                      
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                              
+                            </div>
+      
+
+            <?php
+        }
+        public function newsTable(){
+
+            ?>
+
+                          <div  class="userTable table-responsive "  id="table" 
+                                data-toggle="table"
+                                data-search="true"
+                                data-filter-control="true" 
+                                data-show-export="true"
+                                data-click-to-select="true"
+                                data-toolbar="#toolbar">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+
+                                <h1> Les recettes </h1>
+                                <table id="table" class="table table-striped nowrap" style="width:100%">
+                                    <thead>
+                                  
+	
+	
+                                        <tr>
+                                         
+                                            <th scope="col" class='th-sm' data-field="state" data-checkbox="true">Nom</th>
+                                            <th scope="col" class='th-sm' data-field="prenom" data-filter-control="input" data-sortable="true">writer</th>
+                                            <th scope="col" class='th-sm'>image</th>
+                                            <th scope="col" class='th-sm'>Supprimer</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                            $cntrl  = new DashboardController(); 
+                                        	$news = $cntrl->getnews();
+                                            foreach($news as $new)
+                                            {
+                                        ?>
+                                        
+                                        <tr>
+                                            <td><?php echo $new['title']?></td>
+                                            <td><?php echo $new['writer']?></td>
+                                            <td><img src="../public/images/news/<?php echo $new['imgPath']?>"  width="100" height="50"  style="object-fit:cover;" alt=""> <?php echo $new['imgPath']?></td>
+                                       <td><form action='operations.php' method="POST" > 
+                                                <input hidden value =<?php echo $new['idNews']?> name='id'/>
+                                                <button type="submit" name='deletenews' class="btn btn-primary"  >Delete</button></form></td>
                                         </tr>
                                       
                                         <?php }
@@ -321,6 +424,7 @@ class AdminView {
 
             <?php
         }
+   
 
         public function sideBar($num) {
             ?>
@@ -357,6 +461,12 @@ class AdminView {
                 <a href="./nutrationPage" class="nav-link text-white <?php if($num==4) { echo " active" ; }?>">
                     <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
                     Nutration
+                </a>
+                </li>
+                <li>
+                <a href="./news" class="nav-link text-white <?php if($num==6) { echo " active" ; }?>">
+                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+                    News
                 </a>
                 </li>
                 <li>
@@ -834,6 +944,9 @@ class AdminView {
          }
              elseif($num==5){
                 $this->diposacoordien();
+             }
+             elseif($num==6){
+                $this->newsAcoordien();
              }
 
 

@@ -1,6 +1,7 @@
 <?php 
 
 require_once "../controllers/homeController.php";
+require_once "../controllers/dashboardController.php";
 
 
 class GlobaleView{
@@ -215,8 +216,12 @@ class GlobaleView{
 
             <button type="button" class="saisonButton btn btn-outline-primary">Mes Recettes Preférées </button>     
             <button type="button" class="saisonButton btn btn-outline-primary ">Mes Recettes Ajouter </button>     
-        </div>
+            <button type="button" class="saisonButton btn btn-outline-primary ">Mes Recettes Note </button>     
+            <button type="button" class="saisonButton btn btn-outline-primary ">Mes information personneles </button>     
+    
+          </div>
         <div class="card-group">
+        
           
         </div>
       </div>
@@ -248,7 +253,7 @@ class GlobaleView{
             ?>
            `)
         }
-        else {
+        else if($(event.target).text().trim() == "Mes Recettes Preférées") {
           $(".card-group").empty();        
           $(".card-group").append(`
            <?php 
@@ -259,6 +264,57 @@ class GlobaleView{
             echo $this->card($recipe);
             }
             ?>
+           `)
+
+        }
+        else if($(event.target).text().trim() == "Mes Recettes Note") {
+          $(".card-group").empty();        
+          $(".card-group").append(`
+           <?php 
+           $c = new homeController();
+           $r = $c->getNoted($id);
+     
+           foreach ($r as $recipe) {
+            echo $this->card($recipe);
+            }
+            ?>
+           `)
+
+        } else if($(event.target).text().trim() == "Mes information personneles") {
+          $(".card-group").empty();        
+          $(".card-group").append(`
+          <?php 
+           $c = new DashboardController();
+           $r = $c->getUsers($id);
+           ?>
+           <table class="table">
+           <tr>
+           <th>prenom</th>
+           <td><?php echo $r[0]['FirstName'] ?></td>
+           </tr>
+           <tr>
+           <th>nom</th>
+           <td><?php echo $r[0]['lastName'] ?></td>
+           </tr>
+           <tr>
+           <th>email</th>
+           <td><?php echo $r[0]['email'] ?></td>
+           </tr>
+           <tr>
+           <th>sexe</th>
+           <td><?php echo $r[0]['sex'] ?></td>
+           </tr>
+           <tr>
+           <th>date de nescence</th>
+           <td><?php echo $r[0]['birth'] ?></td>
+           </tr>
+           <tr>
+           <th>etat de profile</th>
+           
+           <td><?php echo $r[0]['confirmed'] ?></td>
+           </tr>
+           </table>
+          
            `)
 
         }
@@ -355,7 +411,52 @@ class GlobaleView{
          </div>
       <?php
     }
-   
+
+
+
+     public function contune2($title){
+      ?>
+
+<div id="carouselExampleControls" class="carousel slide diapo" data-bs-ride="carousel">
+  <div class="carousel-inner">
+  <?php 
+                $cntrl  = new HomeController(); 
+                $recipes = $cntrl->getRecipesBycategorie($title);
+                $tr = 0 ;
+            
+                $i=0;
+              ?>
+                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
+                <?php 
+                        $this->card($recipes[$i]);
+                        $this->card($recipes[$i+1]);
+                        $this->card($recipes[$i+2]);
+                        $this->card($recipes[$i+3]);
+                        ?>
+                </div>
+                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
+                <?php 
+                        $this->card($recipes[$i]);
+                    
+                        ?>
+                </div>
+
+    <?php 
+    $tr++;
+             
+            ?>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+                <?php
+              }
     public function contune($title) {
       ?>
       <main>
@@ -370,14 +471,14 @@ class GlobaleView{
             <div id="recipeCarousel" class="carousel carouselCategorie  slide" data-bs-ride="carousel">
               <div class="carousel-inner carousel-innerCategorie" role="listbox">
                 
-         <?php
+            <?php
                             $cntrl  = new HomeController(); 
                             $recipes = $cntrl->getRecipesBycategorie($title);
                             $fr = 0 ;
                             for ($i=0; $i < count($recipes) ; $i++) { 
                               
                             
-                              if ($i%4 == 0){       
+           if (($i%4) == 0){       
                               ?>
                      
                 <div class="carousel-item carousel-itemCategorie <?php if ($i==0) echo "active" ?>  ">
@@ -397,45 +498,31 @@ class GlobaleView{
                       if($i+3 <count($recipes)) {
                         $this->card($recipes[$i+3]);
                        } ?>
-                </div>
+               
+       
 
+               </div>
                 <?php 
-                                }  }
+                                } ?>
+
+                                <?php
+                                }
                             ?>
+           
           
          
-              <a class="carousel-control-prev carousel-control-prevCategorie bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <a class="carousel-control-prev carousel-control-prevCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" ></span>
               </a>
-              <a class="carousel-control-next carousel-control-nextCategorie bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <a class="carousel-control-next carousel-control-nextCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" ></span>
               </a>
             </div>
           </div>		
         </div>
-    
- 
         </main>
 
-        <script>
-        
-        let items = document.querySelectorAll('.carouselCategorie .carousel-itemCategorie')
-
-		items.forEach((el) => {
-			const minPerSlide = 4
-			let next = el.nextElementSibling
-			for (var i=1; i<minPerSlide; i++) {
-				if (!next) {
-            // wrap carousel by using first child
-            next = items[0]
-        }
-        let cloneChild = next.cloneNode(true)
-        el.appendChild(cloneChild.children[0])
-        next = next.nextElementSibling
-    }
-})
-
-        </script>
+     
 
       <?php
    
@@ -453,6 +540,9 @@ class GlobaleView{
                       <img class='icon profile' src="../public/images/icons/profile.png"/>
                       <span> <?php  echo $name ?> </span> 
                     </a>
+                    <a href="./logout.php">
+                      <img class="icon profile" src = "../public/images/icons/logout.png"/>
+                </a>  
                     <?php  } else{
                       ?>
                       <a href="./loginPage">Connecté</a>
@@ -485,9 +575,9 @@ class GlobaleView{
                     <div class="navbar">
             <input type="checkbox" id="navbar-check">
             <div class="navbar-header">
-                <a href="./" style="color:white">
+                <a href="./" style="color:white;text-decoration:none;">
                 <div class="navbar-title">
-                    Home
+                   <span> Home </span>
                 </div>
                 </a> 
             </div>
@@ -500,7 +590,7 @@ class GlobaleView{
             </div>
             
             <div class="navbar-links">
-                <a href="/news" target="_blank">News</a>
+                <a href="./news" target="_blank">News</a>
                 <a href="./recipeIdea" target="_blank">Recipe ideas</a>
                 <a href="./saison" target="_blank">Season</a>
                 <a href="./healthy" target="_blank">Healthy</a>

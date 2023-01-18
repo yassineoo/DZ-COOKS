@@ -307,6 +307,10 @@ nav {
 .carousel-itemCategorie img {
      height: 130px !important;
 }
+.carousel {
+     position: relative;
+     width: 100vw;
+}
 .carousel-item img {
      //   height: 270px !important;
      object-fit: cover;
@@ -373,7 +377,9 @@ nav {
 }
 
 .cardCon {
+     margin-top: 12px;
      padding: 0 !important;
+     width: 260px !important;
 }
 
 .card img {
@@ -547,10 +553,23 @@ table th {
 .profileCon {
      width: 75%;
      display: block;
-     background-color: #666;
+     background-color: #eee;
      margin: auto;
      padding: 12px;
+     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+}
+.profileCon button {
+     padding: 12px;
+     margin: 16px;
+     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
 }
 .navbar-links * {
      color: #f3783d !important;
+}
+.navbar-title span {
+     color: #f3783d !important;
+     margin-left: 10px;
+}
+.navbar-header a:hover {
+     text-decoration: none !important;
 }

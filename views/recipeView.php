@@ -22,7 +22,7 @@ class RecipeView  {
      <body>
     <?php
     }
-    public function index($recipe , $preferd ,$noted) {
+    public function index($recipe , $preferd=null ,$noted=null) {
    ?>
         <main class="recipeCon">
             
@@ -136,6 +136,10 @@ class RecipeView  {
           </video>
         </div>
         </div> 
+      <?php 
+      if(isset($preferd)) {
+
+      ?>
         <div class="rate">
             <input type="radio" id="star5" name="rate" value="5" />
             <label for="star5" title="text">5 stars</label>
@@ -148,7 +152,7 @@ class RecipeView  {
             <input type="radio" id="star1" name="rate" value="1" />
             <label for="star1" title="text">1 star</label>
             
-       </div>
+        </div>
        <input type="hidden" name="" id="preferd" value="
        <?php 
         
@@ -161,8 +165,12 @@ class RecipeView  {
          echo $noted ?>"/>
        <a href="#" id="like" >
         <i class="fa fa-heart" aria-hidden="true"></i>
-         </a>
-            </main>
+       </a>
+       <?php
+      }
+      ?>
+
+    </main>
 
             <script>
                   
@@ -247,6 +255,8 @@ class RecipeView  {
         
 <?php
     }
+
+
 
     public function filterForm(){
       ?>
@@ -432,6 +442,92 @@ class RecipeView  {
 
     }
 
+
+
+    public function news($news , $preferd=null ,$noted=null) {
+      ?>
+           <main class="recipeCon">
+               
+           <h1 class="title"><?php   echo $news[0]['title'] ?> </h1>
+
+           <div class="Recipe">
+           
+            <img class="recipeImage" src=<?php echo "../public/images/news/".$news[0]['imgPath'] ?> alt="">
+            <div class="recipeRight">
+               <div class="line">
+                   <span> <?php  echo  $news[0]['writer']  ?>  </span>
+   
+               </div>
+            
+            </div>
+   
+   
+          </div> 
+          <div  class="ingredientsList stepCon">
+            <h3> Description : </h3>
+              <p>
+                 <?php
+                  $pattern = '/(\d+\.)/i';
+                  $replacement = '</br>${1}';
+                 echo preg_replace($pattern, $replacement, $news[0]['Description']);
+              
+                 ?>
+   
+               </p>
+           
+           </div>
+ 
+         
+           <div class="video">
+   
+             <video width="600" height="320" src="<?php echo $news[0]['videoPath'] ?>" controls>
+               
+             </video>
+           </div>
+           </div> 
+     
+       
+   
+       </main>
+   
+        
+   
+       </body>
+   
+    
+   
+           
+   <?php
+       }
+   
+
+
+       public function newsPage($news){
+        ?>
+     <body>
+ 
+     <div class="card-group">
+
+     <?php 
+     foreach ($news as  $new) {
+       ?>
+      <div class="col-md-3 cardCon">          
+            <div class="card">
+                <img src="../public/images/news/<?php echo $new["imgPath"] ?>" class="d-block w-100" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?php echo mb_substr($new["title"],0,40) ; ?></h5>
+                    <a href="./news?name=<?php echo $new["title"] ?>" class="btn btn-primary">voire la suite</a>
+                </div>
+            </div>
+
+      </div>
+      <?php
+     }
+     ?>
+
+     </div> 
+<?php
+       }
     public function saisonPage($recipes){
          ?>
       <body>
