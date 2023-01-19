@@ -145,7 +145,8 @@ class AdminView {
                                             <th  data-field="email" data-filter-control="select" scope="col" class='th-sm' data-field="prenom" >categorie</th>
                                             <th  data-field="sex" data-filter-control="select" scope="col" class='th-sm'>saison</th>
                                             <th  data-field="confirmed" data-sortable="true" scope="col" class='th-sm'>calories</th>
-                                            <th  data-field="delete" data-sortable="true" scope="col" class='th-sm'>banner</th>
+                                            <th  data-field="confirmed" data-sortable="true" scope="col" class='th-sm'>healthy</th>
+                                            <th  data-field="delete" data-sortable="true" scope="col" class='th-sm'>supprimer</th>
                                         </tr>
                                     </thead>
                                     <tbody id="myTable">
@@ -161,8 +162,9 @@ class AdminView {
 
                                             <td><?php echo $ingredient['name'] ?> </td>
                                             <td><?php echo $ingredient['categorie']?></td>
-                                            <td><?php echo $ingredient['saison']?></td>
+                                            <td><?php echo $ingredient['saisoni']?></td>
                                             <td><?php echo $ingredient['calorie']?></td>
+                                            <td><?php echo $ingredient['healthy']?></td>
 
                                           <td><form action='operations.php' method="POST" > 
                                                 <input hidden value =<?php echo $ingredient['id']?> name='id'/>
@@ -933,7 +935,11 @@ class AdminView {
                                 </tr>
                                 <tr>
                                 <th>saison</th> 
-                                <td>${info[0][0]['saison']}</td>
+                                <td>${info[0][0]['saisoni']}</td>
+                                </tr>
+                                <tr>
+                                <th>healthy</th> 
+                                <td>${info[0][0]['healthy']}</td>
                                 </tr>
                                 `);
                                 $(".vitamineListBody").empty();

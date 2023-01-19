@@ -116,7 +116,7 @@ class NutrationModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         
-            $sql= "INSERT INTO `ingredient` (`id`, `name`,`categorie`, `saison`, `healthy`, `calorie` ) VALUES (NUll, ?, ?, ?, 50,?); ";
+            $sql= "INSERT INTO `ingredient` (`id`, `name`,`categorie`, `saisoni`, `healthy`, `calorie` ) VALUES (NUll, ?, ?, ?, 50,?); ";
             $args=[$name ,$categorie , $season , $calories ];
       
 
@@ -266,7 +266,7 @@ class NutrationModel{
         $sqlFinale =$this->ideaSql($ingredList);
         $sqlFinale =$sqlFinale." INNER join (SELECT id as idR,AVG(note) as NoteF FROM `recipe` inner join `noter` on recipe.id = noter.idRecipe GROUP By idR)  as def on id= def.idR ORDER BY NoteF DESC"; 
         $args=[];
- //       echo $sqlFinale;
+      //  echo $sqlFinale;
         $ideas = $dbConn->request($conn,$sqlFinale,$args);
         $dbConn ->deconnexion($conn);
 //        echo $sqlFinale;

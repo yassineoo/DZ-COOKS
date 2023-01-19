@@ -374,6 +374,7 @@ class NutrationView{
                       </table>
             </div>
         </div>
+        <script src='../public/js/jQuery.js'></script>
 
         <script>
          

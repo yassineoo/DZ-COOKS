@@ -435,8 +435,25 @@ class RecipeModel{
         $args=[];
         $sql= "select * from  (SELECT * from $recipeSql as input  INNER join (SELECT id as idR,AVG(note) as NoteF FROM `recipe` inner join `noter` on recipe.id = noter.idRecipe GROUP By idR)  as res on  input.id = res.idR ) as res2  INNER join ( SELECT idRecipe,SUM(calorie) as calorieF From `makein` INNER JOIN `ingredient` on makein.idingred = ingredient.id  GROUP By idRecipe) as res3  on res2.id = res3.idRecipe  where ";
         $ss = $filter['saison'];
+      //  echo "$ss";
         if("1" != $ss) {
-           $sql=  $sql.'saison="'.$ss.'" AND ' ;
+            if ($ss=="4")
+           $sql=  $sql.'saison="automne" AND ' ;
+           elseif ($ss=="2") {
+           
+            $sql=  $sql.'saison="hiver" AND ' ;
+            # code...
+           }
+           elseif ($ss=="3") {
+           
+            $sql=  $sql.'saison="Lâ€™Ã©tÃ©" AND ' ;
+            # code...
+           }   
+            elseif ($ss=="Le printemps") {
+           
+            $sql=  $sql.'saison="Le printemps" AND ' ;
+            # code...
+           }
         }
         $MIN =$filter['cuisson'][0];
         $MAX =$filter['cuisson'][1];
@@ -465,7 +482,7 @@ class RecipeModel{
        
        
             
-        //echo $sql;
+      // echo $sql;
         $res = $dbConn->request($conn,$sql,$args);
         $dbConn ->deconnexion($conn);
       //  echo $res->fetchAll()[0][0];

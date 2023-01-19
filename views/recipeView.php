@@ -293,7 +293,7 @@ class RecipeView  {
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" value="L'hiver" name="saison" id="flexRadioDefault1a">
+                            <input class="form-check-input" type="radio" value="2" name="saison" id="flexRadioDefault1a">
                             <label class="form-check-label" for="flexRadioDefault1">
                               l'hiver
                             </label>
@@ -305,13 +305,13 @@ class RecipeView  {
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" value="L'été" name="saison" id="flexRadioDefault2k" >
+                            <input class="form-check-input" type="radio" value="3" name="saison" id="flexRadioDefault2k" >
                             <label class="form-check-label" for="flexRadioDefault2">
                             L'été
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" value="L'automne" name="saison" id="flexRadioDefault2l" >
+                            <input class="form-check-input" type="radio" value="4" name="saison" id="flexRadioDefault2l" >
                             <label class="form-check-label" for="flexRadioDefault2">
                             L'automne
                             </label>
@@ -370,7 +370,7 @@ class RecipeView  {
         <?php
     }
 
-    public function categoriePage($recipes){
+    public function categoriePage($recipes,$name){
       ?>
 
       <body>
@@ -406,7 +406,7 @@ class RecipeView  {
                   $.ajax({
                                               type: "POST",
                                               url: "filter.php",
-                                      data: { "filter":data},
+                                      data: { "filter":data, "name":"<?php echo$name;?>"},
                                       cache: false,
                                       success: function(data) {
                                         console.log(data);

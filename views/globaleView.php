@@ -361,9 +361,9 @@ class GlobaleView{
     public function diaporama(){
       ?>
 
-<div id="carouselExampleControls" class="carousel slide diapo" data-bs-ride="carousel">
-  <div class="carousel-inner">
-  <?php 
+      <div id="carouselExampleControls" class="carousel slide diapo" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        <?php 
             $cntrl =new HomeController();
             $diapos = $cntrl->getDiapos();
             $tr = 0;
@@ -564,6 +564,20 @@ class GlobaleView{
 
       
         <?php
+     }
+
+     public function contactPage() {
+
+      ?>
+
+        <form>      
+          <input name="name" type="text" class="feedback-input" placeholder="Name" />   
+          <input name="email" type="text" class="feedback-input" placeholder="Email" />
+          <textarea name="text" class="feedback-input" placeholder="Comment"></textarea>
+          <input type="submit" value="SUBMIT"/>
+        </form>
+
+      <?php
      }
 
 

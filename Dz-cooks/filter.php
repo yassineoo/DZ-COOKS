@@ -14,7 +14,7 @@
 $cntrl = new homeController();
 if (isset($_POST['filter'])) {
     # code...
-    $res = $cntrl -> filtrage($_POST['filter']);
+    $res = $cntrl -> filtrage($_POST['filter'],$_POST['name']);
 }
 elseif (isset($_POST['saison'])){
     $res = $cntrl -> saisonFilter($_POST['saison']);

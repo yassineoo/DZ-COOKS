@@ -183,7 +183,7 @@ public function recipeIdea($name=null,$id=null) {
    // echo count($recipes);
     $view->head();
     $viewGlob->header($userName,$id);
-    $view->categoriePage($recipes);
+    $view->categoriePage($recipes,$name);
     $viewGlob->footer();
   }
   public function saisonPage($name=null,$id=null){
@@ -209,6 +209,8 @@ public function recipeIdea($name=null,$id=null) {
     $viewGlob->footer();
   
   }
+
+  
   public function partyPage($name=null,$id=null){
     $view = new RecipeView();
     $viewGlob = new GlobaleView();
@@ -218,6 +220,15 @@ public function recipeIdea($name=null,$id=null) {
     $view->head();
     $viewGlob->header($name,$id);
     $view->partyPage($recipes);
+    $viewGlob->footer();
+  
+  }
+
+  public function contactPage($name=null,$id=null){
+    $viewGlob = new GlobaleView();
+    $viewGlob->head();
+    $viewGlob->header($name,$id);
+    $viewGlob->contactPage();
     $viewGlob->footer();
   
   }
@@ -242,10 +253,10 @@ public function recipeIdea($name=null,$id=null) {
     return $model->ideaGenerator($ingredList);
     
   }
-  public function filtrage($filter){
+  public function filtrage($filter,$name=null){
 
    $model = new RecipeModel();
-    return $model ->filtrage($filter,"recipe"); 
+    return $model ->filtrage($filter,"( Select * from  recipe where categorie='$name' ) "); 
   }
 
   
