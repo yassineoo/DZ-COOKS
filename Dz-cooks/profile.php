@@ -8,8 +8,10 @@ session_start();
 
 $cntrl = new UserController();
 if (isset($_GET['id'] ) && isset($_SESSION['id'])){
-    if ($_SESSION['id'] == $_GET['id'])
-     $cntrl -> profile($_SESSION['id'],$_SESSION['username']);
+    if (($_SESSION['id'] == $_GET['id']) && isset($_SESSION['admin']))
+     $cntrl -> profile($_GET['id'],$_SESSION['username']);
+     $cntrl -> profile($_GET['id'],$_SESSION['admin']);
+     
      exit();
 }
     

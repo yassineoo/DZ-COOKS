@@ -370,7 +370,7 @@ class GlobaleView{
             foreach ($diapos as  $diapo) {
             
               ?>
-                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
+                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="5000">
                     <a href="<?php echo $diapo['path']?>"><img src="../public/images/diapo/<?php echo $diapo['imageName']?> "  class="d-block w-100 h-20" alt="...">
                       <div class="carousel-caption d-none d-md-block ">
                         <h5><?php echo $diapo['title']?> </h5>
@@ -414,49 +414,7 @@ class GlobaleView{
 
 
 
-     public function contune2($title){
-      ?>
-
-<div id="carouselExampleControls" class="carousel slide diapo" data-bs-ride="carousel">
-  <div class="carousel-inner">
-  <?php 
-                $cntrl  = new HomeController(); 
-                $recipes = $cntrl->getRecipesBycategorie($title);
-                $tr = 0 ;
-            
-                $i=0;
-              ?>
-                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
-                <?php 
-                        $this->card($recipes[$i]);
-                        $this->card($recipes[$i+1]);
-                        $this->card($recipes[$i+2]);
-                        $this->card($recipes[$i+3]);
-                        ?>
-                </div>
-                <div class="carousel-item  <?php if($tr==0) echo "active"?> " data-bs-interval="1000000">
-                <?php 
-                        $this->card($recipes[$i]);
-                    
-                        ?>
-                </div>
-
-    <?php 
-    $tr++;
-             
-            ?>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-                <?php
-              }
+  
     public function contune($title) {
       ?>
       <main>
@@ -481,7 +439,7 @@ class GlobaleView{
            if (($i%4) == 0){       
                               ?>
                      
-                <div class="carousel-item carousel-itemCategorie <?php if ($i==0) echo "active" ?>  ">
+                <div class="carousel-item carousel-itemCategorie <?php if ($i==0) echo "active" ?>  " data-bs-interval="255000">
                         <?php 
                         $this->card($recipes[$i]);
                         ?>
@@ -511,11 +469,14 @@ class GlobaleView{
            
           
          
-              <a class="carousel-control-prev carousel-control-prevCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" ></span>
+              <a class="carousel-control-prev carousel-control-prevCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev" style="background-color:#eee; width:50px; color:#f3783d;">
+          
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
               </a>
-              <a class="carousel-control-next carousel-control-nextCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
-                <span class="carousel-control-next-icon" ></span>
+              <a class="carousel-control-next carousel-control-nextCategorie  w-aut" href="#recipeCarousel" role="button" data-bs-slide="next" style="background-color:#eee; width:50px; color:#f3783d;">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">next</span>
               </a>
             </div>
           </div>		
@@ -596,6 +557,7 @@ class GlobaleView{
                 <a href="./healthy" target="_blank">Healthy</a>
                 <a href="./party" target="_blank">Ocassions</a>
                 <a href="./nutrition" target="_blank">Nutration</a>
+                <a href="#footer" >Contact</a>
 
             </div>
             </div>
@@ -610,7 +572,7 @@ class GlobaleView{
 
 
             <!-- Footer -->
-            <footer class="text-center text-lg-start bg-light text-muted">
+            <footer class="text-center text-lg-start bg-light text-muted" id="footer">
               <!-- Section: Social media -->
               <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
                 <!-- Left -->
@@ -666,13 +628,13 @@ class GlobaleView{
                         <a href="#!" class="text-reset">Recettes</a>
                       </p>
                       <p>
-                        <a href="#!" class="text-reset">idee de recette</a>
+                        <a href="./recipeidea" class="text-reset">idee de recette</a>
                       </p>
                       <p>
-                        <a href="#!" class="text-reset">Healthy</a>
+                        <a href="./healthy" class="text-reset">Healthy</a>
                       </p>
                       <p>
-                        <a href="#!" class="text-reset">seasons</a>
+                        <a href="./saison" class="text-reset">seasons</a>
                       </p>
                     </div>
                     <!-- Grid column -->
@@ -684,16 +646,16 @@ class GlobaleView{
                         Useful links
                       </h6>
                       <p>
-                        <a href="#!" class="text-reset">Nutration</a>
+                        <a href="./nutration" class="text-reset">Nutrition</a>
                       </p>
                       <p>
                         <a href="#!" class="text-reset">Settings</a>
                       </p>
                       <p>
-                        <a href="#!" class="text-reset">fete</a>
+                        <a href="./party" class="text-reset">fete</a>
                       </p>
                       <p>
-                        <a href="#!" class="text-reset">Help</a>
+                        <a href="#" class="text-reset">Help</a>
                       </p>
                     </div>
                     <!-- Grid column -->

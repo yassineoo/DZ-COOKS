@@ -35,7 +35,7 @@ class NutrationModel{
     public function mostPobular(){
         $dbConn = new Dbconnection();
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
-        $sql= "SELECT name from `ingredient` INNER JOIN (SELECT idingred , COUNT(idRecipe) as num FROM `makein` GROUP BY `idingred` ORDER BY `num` DESC LIMIT 3 ) as res On ingredient.id = res.idingred ;";
+        $sql= "SELECT name from `ingredient` INNER JOIN (SELECT idingred , COUNT(idRecipe) as num FROM `makein` GROUP BY `idingred` ORDER BY `num` DESC LIMIT 6 ) as res On ingredient.id = res.idingred ;";
         $args=[];
         $result = $dbConn->request($conn,$sql,$args);
 
@@ -264,8 +264,9 @@ class NutrationModel{
         
     
         $sqlFinale =$this->ideaSql($ingredList);
-           
+        $sqlFinale =$sqlFinale." INNER join (SELECT id as idR,AVG(note) as NoteF FROM `recipe` inner join `noter` on recipe.id = noter.idRecipe GROUP By idR)  as def on id= def.idR ORDER BY NoteF DESC"; 
         $args=[];
+ //       echo $sqlFinale;
         $ideas = $dbConn->request($conn,$sqlFinale,$args);
         $dbConn ->deconnexion($conn);
 //        echo $sqlFinale;
@@ -273,7 +274,18 @@ class NutrationModel{
     }
 
 
-   
+    public function deleteIngredient($id){
+        $dbConn = new Dbconnection();
+        $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
+
+        $sql='DELETE FROM `ingredient`  WHERE id=?;';
+
+            $args=[$id];        
+        $dbConn->request($conn,$sql,$args);
+        $dbConn ->deconnexion($conn);
+
+        return 1;
+    }   
 
 
 

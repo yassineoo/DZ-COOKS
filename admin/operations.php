@@ -45,6 +45,13 @@
         $cntrl->deleteUser($id);
         header('location: ./users.php');
     }  
+    elseif (isset($_POST['deleteIngredient'])) {
+        $cntrl = new NutrationController();
+
+        $cntrl->deleteIngredient($id);
+        header('location: ./nutrationPage.php');
+
+    } 
     
   
     

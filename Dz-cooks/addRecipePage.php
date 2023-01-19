@@ -11,7 +11,7 @@ if(!isset($_SESSION['username'])){
 }
 else {
     $cntrl = new HomeController();
-    $cntrl -> addRecipePage();
+    $cntrl -> addRecipePage($_SESSION['username'],$_SESSION['id']);
 
 }
 

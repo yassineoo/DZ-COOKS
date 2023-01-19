@@ -10,7 +10,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($id)) {
-            $sql= "SELECT recipe.id,imgPath,cookingTime,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.id=? ;";
+            $sql= "SELECT recipe.id,imgPath,cookingTime,saison,difficulty,restTime,preparationTime,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.id=? ;";
             $args=[$id];
         }
         elseif(isset($all)) {
@@ -32,7 +32,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($name)) {
-            $sql= "SELECT recipe.id,imgPath,serves,videoPath,cookingTime,restTime,preparationTime,description,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.name=? ;";
+            $sql= "SELECT recipe.id,imgPath,serves,recipe.saison,difficulty,videoPath,cookingTime,restTime,preparationTime,description,recipe.name , ingredient.name as ingredName ,idingred FROM `recipe` INNER JOIN `makein`   as res1  on recipe.id =res1.idRecipe  INNER JOIN ingredient ON res1.idingred = ingredient.id where recipe.name=? ;";
             $args=[$name];
         }
         $recipies = $dbConn->request($conn,$sql,$args);
@@ -46,7 +46,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($name)) {
-            $sql= "SELECT * FROM `recipe` where categorie=? ;";
+            $sql= "SELECT * FROM `recipe` where categorie=?  AND approved=1 ;";
             $args=[$name];
         }
         $recipies = $dbConn->request($conn,$sql,$args);
@@ -60,7 +60,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         if (isset($name)) {
-            $sql= 'SELECT * FROM `recipe` where saison="'.$name.'"';;
+            $sql= 'SELECT * FROM `recipe` where saison="'.$name.'" AND approved=1' ;
             $args=[];
         }
       $recipies = $dbConn->request($conn,$sql,$args);
@@ -74,7 +74,7 @@ class RecipeModel{
           $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
   
           if (isset($name)) {
-              $sql= 'SELECT * FROM `recipe` where party="'.$name.'"';;
+              $sql= 'SELECT * FROM `recipe` where party="'.$name.'" And approved=1';;
               $args=[];
           }
         $recipies = $dbConn->request($conn,$sql,$args);
@@ -90,7 +90,7 @@ class RecipeModel{
         $conn = $dbConn->connexion($dbConn ->servername,$dbConn ->dbname,$dbConn ->username,$dbConn ->password);
 
         
-            $sql= "SELECT * FROM categorie ";
+            $sql= "SELECT * FROM categorie  ";
             $args=[];
       
         $categories = $dbConn->request($conn,$sql,$args);
@@ -455,6 +455,7 @@ class RecipeModel{
         $MIN =$filter['calorie'][0];
         $MAX =$filter['calorie'][1];
         $sql=  $sql. " calorieF  BETWEEN $MIN AND $MAX  ";
+        $sql=  $sql. " AND approved=1";
         if ( $filter['sortBy'] == "NC") $sql=  $sql." ORDER BY calorieF";
         if ( $filter['sortBy'] == "TP") $sql=  $sql." ORDER BY preparationTime";
         if ( $filter['sortBy'] == "TT") $sql=  $sql." ORDER BY (preparationTime + cookingTime)";

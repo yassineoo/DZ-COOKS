@@ -87,7 +87,7 @@ if ($uploadOk == 0) {
     
     $homeController->addRecipe($name,$description,$serves,$PrepTime,$CookTime, $RestTime,$optionCat,$optionParty,$Ingred,$steps ,$imagePath,$videoPath, $writer,$saison,$optiondiff);
   
-    header("location:./recipe?name=".$name) ;
+    header("location:./dz-cooks") ;
     exit();
     
   } else {

@@ -69,6 +69,11 @@ class NutrationController {
         return  $model->getIngredient();
     
       }
+      public function deleteIngredient($id){
+        $model = new NutrationModel();
+        return  $model->deleteIngredient($id);
+
+      }
 
       public function GetIngredientList() {
         $model = new NutrationModel();

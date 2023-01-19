@@ -20,10 +20,10 @@ class HomeController {
         $view->home($name,$id);
         
   }
-  public function addRecipePage($error=null) {
+  public function addRecipePage($name=null,$id=null, $error=null) {
     $view = new recipeFormView();
     
-    $view->AddPage();
+    $view->AddPage($name,$id);
 
     
 }

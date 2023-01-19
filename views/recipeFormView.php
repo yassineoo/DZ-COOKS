@@ -23,10 +23,10 @@ class recipeFormView{
             <?php
     }
 
-    public function AddPage(){
+    public function AddPage($name=null,$id=null){
         $view = new GlobaleView();
         $this->head();
-        $view->header();
+        $view->header($name,$id);
         $this->form(); 
     }
 
@@ -292,7 +292,7 @@ class recipeFormView{
         ?>
                     <div class="form-group Ingredient">
                    
-                        <textarea  class="form-control"  name=<?php "step".$number ?>  placeholder="kook" rows="2"  >
+                        <textarea  class="form-control"  name=<?php "step".$number ?>  placeholder="kook" rows="2" value="" >
                         </textarea>
                     </div>
         <?php

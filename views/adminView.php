@@ -78,7 +78,8 @@ class AdminView {
                                                 <th  data-field="email" data-filter-control="select" scope="col" class='th-sm' data-field="prenom" >Email</th>
                                                 <th  data-field="sex" data-filter-control="select" scope="col" class='th-sm'>sexe</th>
                                                 <th  data-field="confirmed" data-sortable="true" scope="col" class='th-sm'>confirmer</th>
-                                                <th  data-field="delete" data-sortable="true" scope="col" class='th-sm'>supprimer</th>
+                                                <th  data-field="delete" data-sortable="true" scope="col" class='th-sm'>banner</th>
+                                                <th  data-field="profile" data-sortable="true" scope="col" class='th-sm'>profile</th>
                                             </tr>
                                         </thead>
                                         <tbody id="myTable">
@@ -101,7 +102,10 @@ class AdminView {
                                                     <button type="submit" name='confirmeUser' class="btn btn-primary" <?php echo $user['confirmed']?'disabled':'' ?> >confirme</button></form></td>
                                                 <td><form action='operations.php' method="POST" > 
                                                     <input hidden value =<?php echo $user['id']?> name='id'/>
-                                                    <button type="submit" name='deleteUser' class="btn btn-primary"  >Supprimer</button></form></td>
+                                                    <button type="submit" name='deleteUser' class="btn btn-primary"  >banni</button></form></td>
+                                                    <td>
+                                                    <input hidden value =<?php echo $user['id']?> name='id'/>
+                                                   <a href="../dz-cooks/profile?id=<?php echo $user['id']?>" > <button type="submit"  class="btn btn-primary"  >profile</button></a></td>   
                                             </tr>
                                         
                                             <?php }
@@ -114,6 +118,67 @@ class AdminView {
 
                 <?php
         }
+        public function ingredientTable(){
+
+            ?>
+
+                        <div  class="userTable table-responsive "   
+                        id="table" 
+                            data-toggle="table"
+                            data-search="true"
+                            data-filter-control="true" 
+                            data-show-export="true"
+                            data-click-to-select="true"
+                            data-toolbar="#toolbar"
+                            class="table-responsive">
+                                <input class="form-control" id="myInput" type="text" placeholder="Search.."/>
+
+                                <h1> les ingredients </h1>
+                                <table id="table" class="table table-striped nowrap" style="width:100%">
+                                    <thead>
+                                
+    
+    
+                                        <tr>
+                                        
+                                            <th  data-field="date" data-filter-control="select"  scope="col" class='th-sm' data-field="state" data-checkbox="true">Nom</th>
+                                            <th  data-field="email" data-filter-control="select" scope="col" class='th-sm' data-field="prenom" >categorie</th>
+                                            <th  data-field="sex" data-filter-control="select" scope="col" class='th-sm'>saison</th>
+                                            <th  data-field="confirmed" data-sortable="true" scope="col" class='th-sm'>calories</th>
+                                            <th  data-field="delete" data-sortable="true" scope="col" class='th-sm'>banner</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                        <?php
+                                            $cntrl  = new NutrationController(); 
+                                            $ingredients = $cntrl->GetIngredientList();
+                                            $i = 0;
+                                            foreach($ingredients as $ingredient)
+                                            {
+                                        ?>
+                                        
+                                        <tr>
+
+                                            <td><?php echo $ingredient['name'] ?> </td>
+                                            <td><?php echo $ingredient['categorie']?></td>
+                                            <td><?php echo $ingredient['saison']?></td>
+                                            <td><?php echo $ingredient['calorie']?></td>
+
+                                          <td><form action='operations.php' method="POST" > 
+                                                <input hidden value =<?php echo $ingredient['id']?> name='id'/>
+                                                <button type="submit" name='deleteIngredient' class="btn btn-primary"  >supprimer</button></form></td>
+                                        </tr>
+                                    
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            
+                            </div>
+    
+
+            <?php
+    }
         public function Recipeacoordien(){
 
             ?> 
@@ -433,7 +498,7 @@ class AdminView {
             
           
             <div class="menu d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <a href="./" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
                 <span class="fs-4">Dashboard</span>
             </a>
@@ -521,6 +586,18 @@ class AdminView {
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                          <?php $this->setPercentage() ?> 
+                    </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    controller les Ingredient ! 
+                    </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                         <?php $this->ingredientTable() ?> 
                     </div>
                     </div>
                 </div>

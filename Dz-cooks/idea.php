@@ -27,7 +27,7 @@ $p=  $cntrlN-> getPercentage();
 $res = array();
 foreach ($ideas as $recipe) {
     $cntrlh = new HomeController();
-    if(intval($recipe['num'])/count($_POST['ingredientList'])   > $p/100) {
+    if(intval($recipe['num'])/count($_POST['ingredientList'])   >= $p/100) {
         $variable = $cntrlh->getRecipes($recipe['id']);
         $ingredList = array();
         foreach ($variable as  $value) {

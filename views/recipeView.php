@@ -82,6 +82,18 @@ class RecipeView  {
                  echo  intval($cntrl->getcalories($recipe[0]['id'])[0][0] / $recipe[0]['serves']) ;  ?> calories </span>
 
             </div>
+            <div class="line">
+
+                <span>saison :<?php 
+                echo $recipe[0]['saison'];
+                ?>
+            </div>
+            <div class="line">
+
+              <span>difficulty :<?php 
+              echo $recipe[0]['difficulty'];
+              ?>
+            </div>
          </div>
 
 
@@ -578,9 +590,7 @@ class RecipeView  {
                               data: { "saison":$(event.target).text() },
                               cache: false,
                               success:  function(data) {
-                                        console.log("------------");
-                                        console.log(data);
-                                        console.log("-------/////-----");
+                                    
 
                                             dataa= JSON.parse(data)
                                         $(".card-group").empty();
