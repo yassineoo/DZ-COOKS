@@ -119,9 +119,16 @@ class UserController {
         $res =   $model->SignUp($fname ,$lname,$email ,$pass,$birth,$sex);
         if ($res == 2){
 
-            $_SESSION["username"] = $email;  
-            header("location:./index.php");  
+
+          $model = new UserModel();
+          $res =   $model->login($email,$pass,$admin);
         
+                $_SESSION["username"] = $res[0][1]." ".$res[0][2];  
+                $_SESSION["id"] = $res[0][0];
+               
+            
+        
+
          //   $view->login_form("password Name is required");
 
 
