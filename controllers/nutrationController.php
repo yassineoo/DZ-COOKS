@@ -28,9 +28,10 @@ class NutrationController {
       //$viewGlob-> head();
       
 
-      $view->head();
+      $viewGlob->head();
       $viewGlob-> header($name,$id);
       $view->IngredientsList();
+      $view->footer();
 
   }
     public function getCategories() {
